@@ -87,7 +87,7 @@ public class DocUtil {
 
         BookBean book = new BookBean();
         book.setId(id);
-        book.setData_src(data_src);
+        book.setDataSrc(data_src);
         book.setTitle(title);
         book.setChapter(chapter);
         book.setDesc(desc);
@@ -256,7 +256,7 @@ public class DocUtil {
 
         BookBean book = new BookBean();
         book.setId(id);
-        book.setData_src(data_src);
+        book.setDataSrc(data_src);
         book.setTitle(title);
         book.setNum(num);
         book.setIft(ift);
@@ -298,7 +298,7 @@ public class DocUtil {
             BookBean book = new BookBean();
             book.setId(id);
             book.setTitle(title);
-            book.setData_src(data_src);
+            book.setDataSrc(data_src);
             book.setStar(star);
             book.setDesc(desc);
 
@@ -348,7 +348,7 @@ public class DocUtil {
         mainBook.setAuthor(author);
         mainBook.setStar(star);
         mainBook.setIft(ift);
-        mainBook.setData_src(data_src);
+        mainBook.setDataSrc(data_src);
         mainBook.setTags(ts);
 
 
@@ -361,10 +361,10 @@ public class DocUtil {
         long chapter_id = laseHua.getId();
         String chapter_name = laseHua.getName();
         long update_time = laseHua.getUptime();
-        mainBook.setChapter_id(chapter_id);
+        mainBook.setChapterId(chapter_id);
         mainBook.setChapter(chapter_name);
-        mainBook.setDesc(xi.getJuqing());
-        mainBook.setUpdate_time(update_time);
+        mainBook.setDesc(xi.getPlot());
+        mainBook.setUpdateTime(update_time);
         xi.getAuthor().getBookList().add(mainBook);
 
         mu.setBook_id(mainBook.getId());
@@ -409,7 +409,7 @@ public class DocUtil {
 
     private static MuBean getMu(Element element) {
         Element update = element.getElementById("updateTime");
-        long time = Long.parseLong(update.attr("datetime"));
+//        long time = Long.parseLong(update.attr("datetime"));
         String time_desc = update.text();
 
         List<HuaBean> huas = new ArrayList<>();
@@ -435,7 +435,7 @@ public class DocUtil {
         }
 
 
-        return new MuBean(time_desc, time, huas);
+        return new MuBean(time_desc, huas);
     }
 
     private static ZiBean getZi(Element element) {

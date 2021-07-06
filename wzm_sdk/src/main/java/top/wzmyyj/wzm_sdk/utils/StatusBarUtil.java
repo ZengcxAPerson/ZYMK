@@ -13,10 +13,8 @@ import android.view.WindowManager;
 /**
  * Created by yyj on 2018/06/29. email: 2209011667@qq.com
  */
-
+@SuppressWarnings("unused")
 public class StatusBarUtil {
-
-
     /**
      * 状态栏设置
      */
@@ -42,12 +40,15 @@ public class StatusBarUtil {
         } else {
             flag |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         }
-
         // 文字
         if (isDark) {
-            flag |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                flag |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
         } else {
-            flag |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                flag |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            }
         }
         window.getDecorView().setSystemUiVisibility(flag);
         // 背景颜色
@@ -55,9 +56,7 @@ public class StatusBarUtil {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
-
     }
-
 
     public static void initStatusBarHeight(Context context) {
         StatusBarHeight = getStatusBarHeight(context);
@@ -81,8 +80,8 @@ public class StatusBarUtil {
     }
 
     public static void fitsStatusBarView(@NonNull View... views) {
-        for (int i = 0; i < views.length; i++) {
-            ViewGroup.LayoutParams params = views[i].getLayoutParams();
+        for (View view : views) {
+            ViewGroup.LayoutParams params = view.getLayoutParams();
             params.height = StatusBarHeight;
         }
     }
@@ -94,6 +93,4 @@ public class StatusBarUtil {
     public static void notfullScreen(Activity context) {
         context.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//显示状态栏
     }
-
-
 }

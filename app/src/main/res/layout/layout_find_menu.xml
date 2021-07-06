@@ -28,7 +28,7 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:id="@+id/img_favor_gongge"
+                android:id="@+id/img_favor_gg"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="5dp"
@@ -36,7 +36,7 @@
                 android:src="@mipmap/ico_jiugongge_unavailable" />
 
             <ImageView
-                android:id="@+id/img_favor_piliang"
+                android:id="@+id/img_favor_pl"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="15dp"

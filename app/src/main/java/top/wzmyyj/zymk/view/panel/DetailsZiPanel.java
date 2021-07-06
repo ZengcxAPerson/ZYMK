@@ -1,5 +1,6 @@
 package top.wzmyyj.zymk.view.panel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,14 +18,14 @@ import butterknife.BindView;
 import top.wzmyyj.zymk.R;
 import top.wzmyyj.zymk.app.bean.FansBean;
 import top.wzmyyj.zymk.app.bean.ZiBean;
-import top.wzmyyj.zymk.app.tools.G;
+import top.wzmyyj.zymk.app.helper.GlideLoaderHelper;
 import top.wzmyyj.zymk.contract.DetailsContract;
 import top.wzmyyj.zymk.base.panel.BasePanel;
 
 /**
  * Created by yyj on 2018/07/19. email: 2209011667@qq.com
  */
-
+@SuppressLint("NonConstantResourceId")
 public class DetailsZiPanel extends BasePanel<DetailsContract.IPresenter> {
     public DetailsZiPanel(Context context, DetailsContract.IPresenter p) {
         super(context, p);
@@ -105,7 +106,7 @@ public class DetailsZiPanel extends BasePanel<DetailsContract.IPresenter> {
                 ImageView img_fans = holder.getView(R.id.img_fins);
                 TextView tv_name = holder.getView(R.id.tv_fans_name);
                 TextView tv_num = holder.getView(R.id.tv_fans_num);
-                G.img(context, fans.getAvatar(), img_fans);
+                GlideLoaderHelper.img(context, fans.getAvatar(), img_fans);
                 tv_name.setText(fans.getName());
                 tv_num.setText(fans.getNum());
             }
@@ -136,17 +137,17 @@ public class DetailsZiPanel extends BasePanel<DetailsContract.IPresenter> {
 
     private void setFans(List<FansBean> fansList) {
         FansBean fans1 = fansList.get(0);
-        G.img(context, fans1.getAvatar(), img_fans_1);
+        GlideLoaderHelper.img(context, fans1.getAvatar(), img_fans_1);
         tv_fans_name_1.setText(fans1.getName());
         tv_fans_num_1.setText(fans1.getNum());
 
         FansBean fans2 = fansList.get(1);
-        G.img(context, fans2.getAvatar(), img_fans_2);
+        GlideLoaderHelper.img(context, fans2.getAvatar(), img_fans_2);
         tv_fans_name_2.setText(fans2.getName());
         tv_fans_num_2.setText(fans2.getNum());
 
         FansBean fans3 = fansList.get(2);
-        G.img(context, fans3.getAvatar(), img_fans_3);
+        GlideLoaderHelper.img(context, fans3.getAvatar(), img_fans_3);
         tv_fans_name_3.setText(fans3.getName());
         tv_fans_num_3.setText(fans3.getNum());
 

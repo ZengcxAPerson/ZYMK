@@ -1,5 +1,6 @@
 package top.wzmyyj.zymk.view.panel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,7 +29,7 @@ import top.wzmyyj.zymk.base.panel.BasePanel;
 /**
  * Created by yyj on 2018/07/19. email: 2209011667@qq.com
  */
-
+@SuppressLint("NonConstantResourceId")
 public class DetailsMuPanel extends BasePanel<DetailsContract.IPresenter> {
     public DetailsMuPanel(Context context, DetailsContract.IPresenter p) {
         super(context, p);
@@ -107,13 +108,13 @@ public class DetailsMuPanel extends BasePanel<DetailsContract.IPresenter> {
     private List<HuaBean> mALLHuaList = new ArrayList<>();
 
     public void setHistoryChapter(ChapterBean chapter) {// 传入历史阅读章节。
-        read_chapter_id = chapter.getChapter_id();
+        read_chapter_id = chapter.getChapterId();
         setData(read_chapter_id);
     }
 
     public void setMuData(MuBean mu) {
         if (mu == null) return;
-        tv_mu_last.setText(mu.getTime_desc());
+        tv_mu_last.setText(mu.getTimeDesc());
 
         mBookID = mu.getBook_id();
 

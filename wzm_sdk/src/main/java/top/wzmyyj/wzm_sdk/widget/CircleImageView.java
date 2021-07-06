@@ -1,6 +1,5 @@
 package top.wzmyyj.wzm_sdk.widget;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,7 +22,6 @@ import top.wzmyyj.wzm_sdk.R;
 /**
  * Created by wzm on 2018/04/23. email: 2209011667@qq.com
  */
-
 @SuppressLint("AppCompatCustomView")
 public class CircleImageView extends ImageView {
 

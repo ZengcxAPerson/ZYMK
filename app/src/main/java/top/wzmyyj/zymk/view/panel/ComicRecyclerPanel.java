@@ -35,62 +35,55 @@ import top.wzmyyj.zymk.app.bean.BookBean;
 import top.wzmyyj.zymk.app.bean.ChapterBean;
 import top.wzmyyj.zymk.app.bean.ComicBean;
 import top.wzmyyj.wzm_sdk.tools.A;
-import top.wzmyyj.zymk.app.tools.G;
+import top.wzmyyj.zymk.app.helper.GlideLoaderHelper;
 import top.wzmyyj.wzm_sdk.utils.DensityUtil;
 import top.wzmyyj.wzm_sdk.utils.MockUtil;
 import top.wzmyyj.zymk.contract.ComicContract;
 import top.wzmyyj.zymk.base.panel.BasePanel;
 import top.wzmyyj.zymk.base.panel.BaseRecyclerPanel;
 
-
 /**
  * Created by yyj on 2018/08/06. email: 2209011667@qq.com
  * 漫画阅读主页面。
  */
-
+@SuppressLint("NonConstantResourceId")
 public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContract.IPresenter> {
+
+    private final static int Definition_Low = 1;
+    private final static int Definition_Middle = 2;
+    private final static int Definition_High = 3;
+    private ComicMenuPanel mMenuPanel;
+    private ComicLoadPosePanel mLoadPosePanel;
+    private int Definition = Definition_Middle;
+    private long mChapterId = 0;
 
     public ComicRecyclerPanel(Context context, ComicContract.IPresenter comicPresenter) {
         super(context, comicPresenter);
     }
 
-    private ComicMeunPanel mMeunPanel;
-    private ComicLoadPasePanel mLoadPasePanel;
-
     @Override
     protected void initPanels() {
         super.initPanels();
         addPanels(
-                mMeunPanel = new ComicMeunPanel(context, mPresenter),
-                mLoadPasePanel = new ComicLoadPasePanel(context, mPresenter)
+                mMenuPanel = new ComicMenuPanel(context, mPresenter),
+                mLoadPosePanel = new ComicLoadPosePanel(context, mPresenter)
         );
     }
-
 
     @Override
     protected void initView() {
         super.initView();
         mFrameLayout.addView(getPanelView(0));
         mFrameLayout.addView(getPanelView(1));
-
         // 消除mRecyclerView刷新的动画。
         ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
     }
-
-    private long mChapterId = 0;
 
     @Override
     protected void initData() {
         super.initData();
         mChapterId = mPresenter.getChapterId();
     }
-
-
-    private final static int Definition_Low = 1;
-    private final static int Definition_Middle = 2;
-    private final static int Definition_High = 3;
-
-    private int Definition = Definition_Middle;
 
     @Override
     protected void setIVD(List<IVD<ComicBean>> ivd) {
@@ -102,40 +95,34 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
 
             @Override
             public void convert(ViewHolder holder, ComicBean comicBean, int position) {
-
                 ImageView img_comic = holder.getView(R.id.img_comic);
-
-                if (comicBean.getChapter_id() == -1) {
-                    G.imgfix(context, R.mipmap.pic_comic_end, img_comic);
+                if (comicBean.getChapterId() == -1) {
+                    GlideLoaderHelper.imgFix(context, R.mipmap.pic_comic_end, img_comic);
                     return;
                 }
-
-
                 if (comicBean.getPrice() == 0) {
                     switch (Definition) {
                         case Definition_Low:
-                            G.imgfix(context, comicBean.getImg_low(), img_comic);
+                            GlideLoaderHelper.imgFix(context, comicBean.getImgLow(), img_comic);
                             break;
                         case Definition_Middle:
-                            G.imgfix(context, comicBean.getImg_middle(), img_comic);
+                            GlideLoaderHelper.imgFix(context, comicBean.getImgMiddle(), img_comic);
                             break;
                         case Definition_High:
-                            G.imgfix(context, comicBean.getImg_high(), img_comic);
+                            GlideLoaderHelper.imgFix(context, comicBean.getImgHigh(), img_comic);
                             break;
                     }
                 } else {
-                    G.imgfix(context, R.mipmap.pic_need_money, img_comic);
+                    GlideLoaderHelper.imgFix(context, R.mipmap.pic_need_money, img_comic);
                 }
-
             }
         });
     }
 
-
     @Override
     public void viewRecycled(@NonNull ViewHolder holder) {
         if (holder != null) {
-            G.clear(context, (ImageView) holder.getView(R.id.img_comic));
+            GlideLoaderHelper.clear(context, holder.getView(R.id.img_comic));
         }
         super.viewRecycled(holder);
     }
@@ -143,47 +130,38 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     @Override
     protected void initListener() {
         super.initListener();
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             // 当前屏幕显示最上面一行的position。
             private int load_position_now = 0;
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                if (!mMeunPanel.isAuto) {
+                if (!mMenuPanel.isAuto) {
                     if (dy > 10) {
-                        mMeunPanel.closeMenu();
+                        mMenuPanel.closeMenu();
                     } else if (dy < -10) {
-                        mMeunPanel.showMenu();
+                        mMenuPanel.showMenu();
                     }
                 }
-
                 int p = mRecyclerView.getChildAdapterPosition(mRecyclerView.getChildAt(0));
-
                 if (p == -1 || p == load_position_now) return;
                 load_position_now = p;
-
-                mMeunPanel.setMenu(mData.get(p));
-
-                if (mChapterId != mData.get(p).getChapter_id()) {
-                    mChapterId = mData.get(p).getChapter_id();
-                    mMeunPanel.scrollCatalog();
+                mMenuPanel.setMenu(mData.get(p));
+                if (mChapterId != mData.get(p).getChapterId()) {
+                    mChapterId = mData.get(p).getChapterId();
+                    mMenuPanel.scrollCatalog();
                 }
-
                 if (load_position_now < 3) {
                     mHandler.sendEmptyMessage(1);
                 } else if (load_position_now > mData.size() - 5) {
                     mHandler.sendEmptyMessage(2);
                 }
-
             }
         });
     }
 
-
     @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -199,98 +177,89 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         }
     };
 
-
     @Override
     public void update() {
         mPresenter.loadData();
     }
 
     private BookBean mBook;
-    private List<ChapterBean> mChapterList = new ArrayList<>();
-    private List<BookBean> mBookList = new ArrayList<>();
-    private List<ComicBean> mComicList = new ArrayList<>();
-
+    private final List<ChapterBean> mChapterList = new ArrayList<>();
+    private final List<BookBean> mBookList = new ArrayList<>();
+    private final List<ComicBean> mComicList = new ArrayList<>();
     private long chapter_id_previous;
     private long chapter_id_after;
 
 
     public void loadFail() {
-        mLoadPasePanel.loadFail();
+        mLoadPosePanel.loadFail();
     }
 
     public void setComicData(BookBean book, List<ChapterBean> chapterList, List<BookBean> bookList, List<ComicBean> comicList) {
-        mLoadPasePanel.loadSuccess();
+        mLoadPosePanel.loadSuccess();
         if (book != null) {
             mBook = book;
         }
-
         if (chapterList != null && chapterList.size() > 0) {
             mChapterList.clear();
             mChapterList.addAll(chapterList);
         }
-
-
         if (bookList != null && bookList.size() > 0) {
             mBookList.clear();
             mBookList.addAll(bookList);
         }
-
         if (comicList != null && comicList.size() > 0) {
             mComicList.clear();
             mComicList.addAll(comicList);
         }
-
         addEnd();
         addOnce();
         mHandler.sendEmptyMessageDelayed(1, 500);
-        mMeunPanel.setCatalogChapterList(chapterList);
+        mMenuPanel.setCatalogChapterList(chapterList);
     }
-
 
     // 增加最后结束语。
     private void addEnd() {
         ComicBean comic = new ComicBean();//增加一张结束语。
-        comic.setChapter_id(-1);
+        comic.setChapterId(-1);
         comic.setVar(1);
-        comic.setVar_size(1);
+        comic.setVarSize(1);
         mComicList.add(comic);
-        mChapterList.add(new ChapterBean(-1));//增加一章结束语。
+        ChapterBean last = new ChapterBean();
+        last.setChapterId(-1);
+        mChapterList.add(last);//增加一章结束语。
     }
 
     // 第一次添加数据。
     private void addOnce() {
         if (mChapterId == 0) {
-            mChapterId = mChapterList.get(0).getChapter_id();
+            mChapterId = mChapterList.get(0).getChapterId();
         }
         long chapter_id = mChapterId;
         mChapterId = 0;
         chapter_id_previous = 0;
         chapter_id_after = 0;
-
         List<ComicBean> comicList = new ArrayList<>();
         for (ComicBean comic : mComicList) {
-            if (comic.getChapter_id() == chapter_id) {
+            if (comic.getChapterId() == chapter_id) {
                 comicList.add(comic);
             }
         }
         mData.clear();
         mData.addAll(0, comicList);
         notifyDataSetChanged();
-        mMeunPanel.setMenu(mData.get(0));
-
+        mMenuPanel.setMenu(mData.get(0));
         // 找上一章和下一章的ID
         for (int i = 0; i < mChapterList.size(); i++) {
-            if (mChapterList.get(i).getChapter_id() == chapter_id) {
+            if (mChapterList.get(i).getChapterId() == chapter_id) {
                 if (i > 0) {
-                    chapter_id_previous = mChapterList.get(i - 1).getChapter_id();
+                    chapter_id_previous = mChapterList.get(i - 1).getChapterId();
                 }
                 if (i < mChapterList.size() - 1) {
-                    chapter_id_after = mChapterList.get(i + 1).getChapter_id();
+                    chapter_id_after = mChapterList.get(i + 1).getChapterId();
                 }
                 break;
             }
         }
-
     }
 
     // 向前加载一章。
@@ -298,22 +267,19 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         if (chapter_id_previous == 0) return;
         long previous = chapter_id_previous;
         chapter_id_previous = 0;
-
-
         List<ComicBean> comicList = new ArrayList<>();
         for (ComicBean comic : mComicList) {
-            if (comic.getChapter_id() == previous) {
+            if (comic.getChapterId() == previous) {
                 comicList.add(comic);
             }
         }
         mData.addAll(0, comicList);
         mHeaderAndFooterWrapper.notifyItemRangeInserted(0, comicList.size());
-
         // 找上一章ID
         for (int i = 0; i < mChapterList.size(); i++) {
-            if (mChapterList.get(i).getChapter_id() == previous) {
+            if (mChapterList.get(i).getChapterId() == previous) {
                 if (i > 0) {
-                    chapter_id_previous = mChapterList.get(i - 1).getChapter_id();
+                    chapter_id_previous = mChapterList.get(i - 1).getChapterId();
                 }
                 break;
             }
@@ -323,36 +289,32 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     // 向后加载一章。
     private void addAfter() {
         if (chapter_id_after == 0) return;
-
         long after = chapter_id_after;
         chapter_id_after = 0;
-
         List<ComicBean> comicList = new ArrayList<>();
         for (ComicBean comic : mComicList) {
-            if (comic.getChapter_id() == after) {
+            if (comic.getChapterId() == after) {
                 comicList.add(comic);
             }
         }
         mData.addAll(comicList);
         notifyDataSetChanged();
-
         // 找下一章ID
         for (int i = 0; i < mChapterList.size(); i++) {
-            if (mChapterList.get(i).getChapter_id() == after) {
+            if (mChapterList.get(i).getChapterId() == after) {
                 if (i < mChapterList.size() - 1) {
-                    chapter_id_after = mChapterList.get(i + 1).getChapter_id();
+                    chapter_id_after = mChapterList.get(i + 1).getChapterId();
                 }
                 break;
             }
         }
-
     }
 
     // 前往指定的章节。
     private void goChChapterById(long id) {
         int p = -1;
         for (int i = 0; i < mData.size(); i++) {// mData中查找指定章节。
-            if (mData.get(i).getChapter_id() == id) {
+            if (mData.get(i).getChapterId() == id) {
                 p = i;
                 break;
             }
@@ -365,8 +327,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         scrollToPosition(p);
     }
 
-
-    public void notifyItemShoewRangeChanged() {
+    public void notifyItemShowRangeChanged() {
         // 只刷新当前显示的item，防止图片跳闪。
         int a = mRecyclerView.getChildAdapterPosition(mRecyclerView.getChildAt(0));
         int b = mRecyclerView.getChildAdapterPosition(mRecyclerView.getChildAt(mRecyclerView.getChildCount() - 1));
@@ -381,13 +342,11 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         mLayoutManager.scrollToPositionWithOffset(p, 0);
     }
 
-    private Handler handler = new Handler();
-    private MyRunnable myRunnable = new MyRunnable();
+    private final Handler handler = new Handler();
+    private final MyRunnable myRunnable = new MyRunnable();
 
     private class MyRunnable implements Runnable {
-
         int a, b, c;
-
         @Override
         public void run() {
             if (a >= b || !mRecyclerView.canScrollVertically(1)) {
@@ -397,12 +356,10 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             } else {
                 a += c;
             }
-
             int scroll = mRecyclerView.getScrollY();
             mRecyclerView.scrollBy(0, scroll + c);
             handler.postDelayed(myRunnable, speed);
         }
-
     }
 
     private final long speed = 5;
@@ -410,8 +367,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         super.onItemClick(view, holder, position);
-        mMeunPanel.clickSome();
-//        T.s(mData.get(position).getChapter_name() + ":" + mData.get(position).getVar());
+        mMenuPanel.clickSome();
     }
 
     @Override
@@ -419,7 +375,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         super.onPause();
         // 保存阅读记录。
         for (ChapterBean chapter : mChapterList) {
-            if (chapter.getChapter_id() == mChapterId) {
+            if (chapter.getChapterId() == mChapterId) {
                 mPresenter.saveHistory(mBook, chapter);
                 return;
             }
@@ -434,11 +390,10 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         handler.removeCallbacks(myRunnable);
     }
 
-
     // 内部类panel.菜单面板。
-    public class ComicMeunPanel extends BasePanel<ComicContract.IPresenter> {
+    public class ComicMenuPanel extends BasePanel<ComicContract.IPresenter> {
 
-        public ComicMeunPanel(Context context, ComicContract.IPresenter p) {
+        public ComicMenuPanel(Context context, ComicContract.IPresenter p) {
             super(context, p);
         }
 
@@ -586,7 +541,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         public void setDefinitionLow() {
             Definition = Definition_Low;
             T.s("已切换到流畅画质");
-            notifyItemShoewRangeChanged();
+            notifyItemShowRangeChanged();
             img_definition.setImageResource(R.mipmap.ic_read_definition_low);
             closeMenuDefinition();
         }
@@ -596,7 +551,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         public void setDefinitionMiddle() {
             Definition = Definition_Middle;
             T.s("已切换到标清画质");
-            notifyItemShoewRangeChanged();
+            notifyItemShowRangeChanged();
             img_definition.setImageResource(R.mipmap.ic_read_definition_middle);
             closeMenuDefinition();
         }
@@ -606,13 +561,13 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         public void setDefinitionHigh() {
             Definition = Definition_High;
             T.s("已切换到高清画质");
-            notifyItemShoewRangeChanged();
+            notifyItemShowRangeChanged();
             img_definition.setImageResource(R.mipmap.ic_read_definition_high);
             closeMenuDefinition();
         }
 
 
-        ///////////////////////////////////////////////////// menu 4，设置亮度
+        // 设置亮度
         @OnClick(R.id.ll_menu_4)
         public void menu_4() {
             if (isShowMenuBrightness) {
@@ -715,12 +670,12 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             mCatalogAdapter.notifyDataSetChanged();
             int j = mCatalogChapterList.size() - 1;
             for (int i = 0; i < mCatalogChapterList.size(); i++) {
-                if (mCatalogChapterList.get(i).getChapter_id() == mChapterId) {
+                if (mCatalogChapterList.get(i).getChapterId() == mChapterId) {
                     j = i;
                     break;
                 }
             }
-            int p = j - 3 > 0 ? j - 3 : 0;
+            int p = Math.max(j - 3, 0);
             if (p < 0 || p > mCatalogChapterList.size() - 1) return;// 防止越界。
             LinearLayoutManager mLayoutManager = (LinearLayoutManager) rv_catalog.getLayoutManager();
             mLayoutManager.scrollToPositionWithOffset(p, 0);
@@ -800,7 +755,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         RecyclerView rv_catalog;
 
         List<ChapterBean> mCatalogChapterList = new ArrayList<>();
-        CommonAdapter mCatalogAdapter;
+        private CommonAdapter mCatalogAdapter;
 
         ////////////////////////////////////////////////////// 总菜单
         private void closeChildMenu() {
@@ -837,17 +792,17 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
                     ImageView img_pic = holder.getView(R.id.img_catalog_pic);
                     TextView tv_name = holder.getView(R.id.tv_catalog_name);
                     LinearLayout ll_bg = holder.getView(R.id.ll_catalog_bg);
-                    if (chapter.getChapter_id() == mChapterId) {
+                    if (chapter.getChapterId() == mChapterId) {
                         ll_bg.setBackgroundResource(R.color.colorPrimary);
                     } else {
                         ll_bg.setBackgroundResource(R.color.colorClarity);
                     }
                     if (chapter.getPrice() == 0) {
-                        G.img(context, chapter.getImageLow(), img_pic);
+                        GlideLoaderHelper.img(context, chapter.getFirstImageLow(), img_pic);
                     } else {
-                        G.img(context, R.mipmap.pic_need_money, img_pic);
+                        GlideLoaderHelper.img(context, R.mipmap.pic_need_money, img_pic);
                     }
-                    tv_name.setText(chapter.getChapter_name());
+                    tv_name.setText(chapter.getChapterName());
                 }
             };
             rv_catalog.setAdapter(mCatalogAdapter);
@@ -932,7 +887,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             mCatalogAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                    mChapterId = mCatalogChapterList.get(position).getChapter_id();
+                    mChapterId = mCatalogChapterList.get(position).getChapterId();
                     goChChapterById(mChapterId);
                     mCatalogAdapter.notifyDataSetChanged();
                 }
@@ -965,10 +920,10 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         }
 
         public void setMenu(ComicBean comic) {
-            int max = comic.getVar_size();
+            int max = comic.getVarSize();
             int p = comic.getVar();
 
-            tv_chapter_name.setText(comic.getChapter_name());
+            tv_chapter_name.setText(comic.getChapterName());
 
             String var = p + "/" + max;
             tv_chapter_var.setText(var);

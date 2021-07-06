@@ -57,8 +57,8 @@ public class FavorModel {
         book.setId(db.getId().intValue());
         book.setTitle(db.getTitle());
         book.setChapter(db.getChapter_name());
-        book.setChapter_id(db.getChapter_id());
-        book.setUpdate_time(db.getUpdate_time());
+        book.setChapterId(db.getChapter_id());
+        book.setUpdateTime(db.getUpdate_time());
         bean.setBook(book);
         bean.setUnRead(db.getIsUnRead());
         return bean;
@@ -100,8 +100,8 @@ public class FavorModel {
                         observableEmitter.onNext(new FavorBean());//内容为空的对象。
                     } else {
                         // 插入。
-                        FavorDb db = new FavorDb((long) book.getId(), book.getTitle(), book.getUpdate_time(),
-                                book.getChapter(), book.getChapter_id(), false);
+                        FavorDb db = new FavorDb((long) book.getId(), book.getTitle(), book.getUpdateTime(),
+                                book.getChapter(), book.getChapterId(), false);
                         mDao.insert(db);
                         // 转化。
                         FavorBean bean = db2bean(db);
@@ -235,7 +235,7 @@ public class FavorModel {
                     public FavorBean apply(ComicBox comicBox) throws Exception {
                         BookBean book = comicBox.getBook();
                         FavorDb db = new FavorDb((long) book.getId(), book.getTitle(), TimeUtil.getTime(),
-                                book.getChapter(), book.getChapter_id(), true);// 新添加的数据设为未读。
+                                book.getChapter(), book.getChapterId(), true);// 新添加的数据设为未读。
 
                         FavorDb dd = mDao.load((long) book.getId());
                         if (dd.getChapter_id() != db.getChapter_id()) {// 最新章节ID不一样则更新数据。

@@ -10,7 +10,6 @@ import top.wzmyyj.zymk.greendao.gen.DaoSession;
 /**
  * Created by yyj on 2018/08/13. email: 2209011667@qq.com
  */
-
 public class DaoManager {
     private static volatile DaoManager manager;
     private static DaoMaster.DevOpenHelper helper;

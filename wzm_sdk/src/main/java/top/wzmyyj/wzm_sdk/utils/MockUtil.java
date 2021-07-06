@@ -8,7 +8,7 @@ import android.view.WindowManager;
 /**
  * Created by yyj on 2018/05/01. email: 2209011667@qq.com
  */
-
+@SuppressWarnings("unused")
 public class MockUtil {
 
     public static int getScreenWidth(Context context) {
@@ -21,7 +21,6 @@ public class MockUtil {
                 .getDefaultDisplay().getHeight();
     }
 
-
     /***
      * 获取屏幕宽度
      * @return 屏幕宽度（px）
@@ -29,8 +28,7 @@ public class MockUtil {
     public int getMobileWidth(Activity context) {
         DisplayMetrics dm = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        return width;
+        return dm.widthPixels;
     }
 
     /**
@@ -40,10 +38,8 @@ public class MockUtil {
     public int getMobileHeight(Activity context) {
         DisplayMetrics dm = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int height = dm.heightPixels;
-        return height;
+        return dm.heightPixels;
     }
-
 
     /**
      * 获取状态栏高度

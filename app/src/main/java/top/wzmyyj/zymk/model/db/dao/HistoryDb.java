@@ -60,9 +60,4 @@ public class HistoryDb {
     public void setHistory_read_time(long history_read_time) {
         this.history_read_time = history_read_time;
     }
-
-
-
-
-    
 }

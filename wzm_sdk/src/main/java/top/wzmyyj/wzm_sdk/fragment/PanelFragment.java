@@ -11,10 +11,7 @@ import top.wzmyyj.wzm_sdk.panel.PanelManager;
 /**
  * Created by wzm on 2018/05/04. email: 2209011667@qq.com
  */
-
-
 public abstract class PanelFragment extends InitFragment {
-
 
     protected PanelManager mPanelManager = new PanelManager();
 
@@ -31,7 +28,6 @@ public abstract class PanelFragment extends InitFragment {
     }
 
     protected void initPanels() {
-
     }
 
     @Override
@@ -40,7 +36,6 @@ public abstract class PanelFragment extends InitFragment {
         initPanels();
         mPanelManager.onCreate(savedInstanceState);
     }
-
 
     @Override
     public void onResume() {
@@ -78,13 +73,10 @@ public abstract class PanelFragment extends InitFragment {
         mPanelManager.onDestroyView();
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPanelManager.onDestroy();
         mPanelManager = null;
     }
-
-
 }

@@ -12,7 +12,6 @@ import top.wzmyyj.zymk.view.fragment.TypeFragment;
 /**
  * Created by yyj on 2018/06/24. email: 2209011667@qq.com
  */
-
 public class MainActivity extends BaseMainActivity {
 
     @Override
@@ -22,6 +21,4 @@ public class MainActivity extends BaseMainActivity {
         fts.add(new FT(new FindFragment(), "足迹", R.mipmap.svg_tab_bar_find, R.mipmap.svg_tab_bar_find_hl));
         fts.add(new FT(new MineFragment(), "我的", R.mipmap.svg_tab_bar_mine, R.mipmap.svg_tab_bar_mine_hl));
     }
-
-
 }

@@ -1,5 +1,6 @@
 package top.wzmyyj.zymk.view.panel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,12 +23,25 @@ import top.wzmyyj.zymk.contract.HomeContract;
 import top.wzmyyj.zymk.view.adapter.BookAdapter;
 import top.wzmyyj.zymk.base.panel.BasePanel;
 
-
 /**
  * Created by yyj on 2018/08/16. email: 2209011667@qq.com
  */
-
+@SuppressLint("NonConstantResourceId")
 public class HomeItemPanel extends BasePanel<HomeContract.IPresenter> {
+
+    @BindView(R.id.img_icon)
+    ImageView imgIcon;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_summary)
+    TextView tvSummary;
+    @BindView(R.id.rv_item)
+    RecyclerView rvItem;
+
+    private BookAdapter bookAdapter;
+    private final List<BookBean> data = new ArrayList<>();
+    private ItemBean itemBean;
+
     public HomeItemPanel(Context context, HomeContract.IPresenter p) {
         super(context, p);
     }
@@ -37,34 +51,19 @@ public class HomeItemPanel extends BasePanel<HomeContract.IPresenter> {
         return R.layout.layout_home_item;
     }
 
-    @BindView(R.id.img_icon)
-    ImageView img_icon;
-    @BindView(R.id.tv_title)
-    TextView tv_title;
-    @BindView(R.id.tv_summary)
-    TextView tv_summary;
-
     @OnClick(R.id.bt_more)
     public void more() {
         if (itemBean == null) return;
         mPresenter.goMore(itemBean.getHref());
     }
 
-    @BindView(R.id.rv_item)
-    RecyclerView rv_item;
-
-    BookAdapter bookAdapter;
-    List<BookBean> data = new ArrayList<>();
-
-    ItemBean itemBean;
-
     @Override
     protected void initView() {
         super.initView();
-        rv_item.setNestedScrollingEnabled(false);
-        rv_item.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));
+        rvItem.setNestedScrollingEnabled(false);
+        rvItem.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));
         bookAdapter = new BookAdapter(context, data);
-        rv_item.setAdapter(bookAdapter);
+        rvItem.setAdapter(bookAdapter);
     }
 
     @Override
@@ -83,19 +82,16 @@ public class HomeItemPanel extends BasePanel<HomeContract.IPresenter> {
         });
     }
 
-
     public void setItemData(ItemBean item) {
         if (item == null) return;
         itemBean = item;
-        img_icon.setImageResource(itemBean.getIcon());
-        tv_title.setText(item.getTitle());
-        tv_summary.setText(item.getSummary());
+        imgIcon.setImageResource(itemBean.getIcon());
+        tvTitle.setText(item.getTitle());
+        tvSummary.setText(item.getSummary());
         if (itemBean.getBooks() != null) {
             data.clear();
             data.addAll(itemBean.getBooks());
             bookAdapter.notifyDataSetChanged();
         }
-
     }
-
 }

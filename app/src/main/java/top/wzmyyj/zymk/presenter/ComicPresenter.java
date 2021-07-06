@@ -9,27 +9,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 import top.wzmyyj.zymk.app.bean.BookBean;
 import top.wzmyyj.zymk.app.bean.ChapterBean;
 import top.wzmyyj.zymk.app.bean.ComicBean;
 import top.wzmyyj.zymk.app.bean.HistoryBean;
 import top.wzmyyj.zymk.app.data.Urls;
 import top.wzmyyj.zymk.app.event.HistoryListChangeEvent;
-import top.wzmyyj.zymk.app.tools.I;
+import top.wzmyyj.zymk.app.helper.IntentHelper;
+import top.wzmyyj.zymk.base.presenter.BasePresenter;
 import top.wzmyyj.zymk.contract.ComicContract;
 import top.wzmyyj.zymk.model.db.HistoryModel;
 import top.wzmyyj.zymk.model.net.ComicModel;
 import top.wzmyyj.zymk.model.net.box.ComicBox;
-import top.wzmyyj.zymk.base.presenter.BasePresenter;
-
 
 /**
  * Created by yyj on 2018/08/01. email: 2209011667@qq.com
  */
-
-public class ComicPresenter extends BasePresenter<ComicContract.IView> implements ComicContract.IPresenter{
+public class ComicPresenter extends BasePresenter<ComicContract.IView> implements ComicContract.IPresenter {
 
     private final ComicModel mModel;
     private final HistoryModel historyModel;
@@ -45,16 +41,10 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
         return mActivity.getIntent().getLongExtra("chapter_id", 0);
     }
 
-
     @Override
     public void loadData() {
         int id = mActivity.getIntent().getIntExtra("comic_id", 0);
-        mModel.getComicInfo(id, new Observer<ComicBox>() {
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
-
-            }
-
+        mModel.getComicInfo(id, new BaseObserver<ComicBox>() {
             @Override
             public void onNext(@NonNull ComicBox box) {
                 int status = box.getStatus();
@@ -75,39 +65,28 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
                 mView.showLoadFail(e.getMessage());
                 mView.showToast("Error:" + e.getMessage());
             }
-
-            @Override
-            public void onComplete() {
-
-            }
         });
     }
 
     private List<ComicBean> getComicData(List<ChapterBean> chapterList) {
         List<ComicBean> comicList = new ArrayList<>();
-
         if (chapterList == null || chapterList.size() == 0) return comicList;
-
         for (ChapterBean chapter : chapterList) {
-
-            int start = chapter.getStart_var();
-            int end = chapter.getEnd_var();
+            int start = chapter.getStartVar();
+            int end = chapter.getEndVar();
 //            chapter.setPrice(0);
-
             for (int i = start; i <= end; i++) {
                 ComicBean comic = new ComicBean();
-                comic.setChapter_id(chapter.getChapter_id());
-                comic.setChapter_name(chapter.getChapter_name());
-                comic.setChapter_title(chapter.getChapter_title());
+                comic.setChapterId(chapter.getChapterId());
+                comic.setChapterName(chapter.getChapterName());
                 comic.setPrice(chapter.getPrice());
-                comic.setImg_high(chapter.getImageHigh(i));
-                comic.setImg_middle(chapter.getImageMiddle(i));
-                comic.setImg_low(chapter.getImageLow(i));
+                comic.setImgHigh(chapter.getImageHigh(i));
+                comic.setImgMiddle(chapter.getImageMiddle(i));
+                comic.setImgLow(chapter.getFirstImageLow(i));
                 comic.setVar(i);
-                comic.setVar_size(end - start + 1);
+                comic.setVarSize(end - start + 1);
                 comicList.add(comic);
             }
-
         }
         return comicList;
     }
@@ -115,25 +94,20 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
     @Override
     public void goDetails(String href) {
         if (href.contains(Urls.ZYMK_Base)) {
-            I.toDetailsActivity2(mActivity, href);
+            IntentHelper.toDetailsActivity2(mActivity, href);
         } else {
-            I.toBrowser(mActivity, href);
+            IntentHelper.toBrowser(mActivity, href);
         }
     }
 
     @Override
     public void goSetting() {
-        I.toSettingActivity(mActivity);
+        IntentHelper.toSettingActivity(mActivity);
     }
 
     @Override
     public void saveHistory(BookBean book, ChapterBean chapter) {
-        historyModel.insert(book, chapter, new Observer<HistoryBean>() {
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
-
-            }
-
+        historyModel.insert(book, chapter, new BaseObserver<HistoryBean>() {
             @Override
             public void onNext(@NonNull HistoryBean historyBean) {
                 if (historyBean == null) {
@@ -146,11 +120,6 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
             @Override
             public void onError(@NonNull Throwable e) {
                 mView.showToast("Error:" + e.getMessage());
-            }
-
-            @Override
-            public void onComplete() {
-
             }
         });
     }

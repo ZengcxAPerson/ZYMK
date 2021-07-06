@@ -9,7 +9,7 @@ import org.json.JSONObject;
 /**
  * Created by wzm on 2018/01/10. email: 2209011667@qq.com
  */
-
+@SuppressWarnings("unused")
 public class L {
     /**
      * Default Log TAG
@@ -25,13 +25,16 @@ public class L {
      * is debug
      */
     private static boolean debug = true;
+    /**
+     * json indent
+     */
+    private static final int JSON_INDENT = 2;
 
     /**
      * private constructor.
      */
     private L() {
     }
-
 
     /**
      * @param TAG   tag.
@@ -112,8 +115,6 @@ public class L {
             Log.d(TAG, getPrettyJson(check(msg)));
     }
 
-    private static final int JSON_INDENT = 2;
-
     /**
      * @param str .
      * @return json .
@@ -134,5 +135,4 @@ public class L {
         }
         return "Invalid Json: " + str;
     }
-
 }

@@ -10,8 +10,6 @@ import top.wzmyyj.wzm_sdk.panel.PanelManager;
 /**
  * Created by wzm on 2018/05/04. email: 2209011667@qq.com
  */
-
-
 public abstract class PanelActivity extends InitActivity {
 
     protected PanelManager mPanelManager = new PanelManager();
@@ -23,12 +21,12 @@ public abstract class PanelActivity extends InitActivity {
     public View getPanelView(int i) {
         return mPanelManager.getPanelView(i);
     }
+
     public Panel getPanel(int i) {
         return mPanelManager.get(i);
     }
 
     protected void initPanels() {
-
     }
 
     @Override
@@ -38,12 +36,10 @@ public abstract class PanelActivity extends InitActivity {
         mPanelManager.onCreate(savedInstanceState);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         mPanelManager.onResume();
-
     }
 
     @Override
@@ -57,7 +53,6 @@ public abstract class PanelActivity extends InitActivity {
         super.onPause();
         mPanelManager.onPause();
     }
-
 
     @Override
     protected void onStop() {

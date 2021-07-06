@@ -18,7 +18,6 @@
         app:title_background="@color/black_overlay"
         app:title_height="25dp"
         app:title_textcolor="@color/colorWhite"
-        app:title_textsize="12dp">
+        app:title_textsize="12dp" />
 
-    </com.youth.banner.Banner>
 </FrameLayout>

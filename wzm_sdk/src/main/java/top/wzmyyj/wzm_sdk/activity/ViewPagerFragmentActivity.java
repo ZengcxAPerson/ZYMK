@@ -14,8 +14,6 @@ import top.wzmyyj.wzm_sdk.widget.TabMenu;
 /**
  * Created by wzm on 2018/04/18. email: 2209011667@qq.com
  */
-
-
 public abstract class ViewPagerFragmentActivity extends InitActivity {
 
     protected List<Fragment> mFragmentList = new ArrayList<>();
@@ -25,10 +23,9 @@ public abstract class ViewPagerFragmentActivity extends InitActivity {
 
     protected TabMenu mTabMenu;
     protected ViewPager mViewPager;
-
     protected List<FT> mFTs = new ArrayList<>();
 
-    protected class FT {
+    protected static class FT {
         Fragment fragment;
         String str;
         int icon1;
@@ -48,7 +45,6 @@ public abstract class ViewPagerFragmentActivity extends InitActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mTabMenu = (TabMenu) findViewById(R.id.tabMenu);
         setSwipeBackEnable(false);
-
     }
 
     protected void addFT(Fragment fragment, String str, int icon1, int icon2) {
@@ -71,10 +67,7 @@ public abstract class ViewPagerFragmentActivity extends InitActivity {
             mIcon2[i] = ft.icon2;
             if (++i >= 6) break;
         }
-
-
         FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-
             @Override
             public int getCount() {
                 return mFragmentList.size();
@@ -91,26 +84,19 @@ public abstract class ViewPagerFragmentActivity extends InitActivity {
             }
         };
         mViewPager.setAdapter(mAdapter);
-
         mTabMenu.setItemText(mStr)
                 .setItemIcon(mIcon1, mIcon2)
                 .setupWithViewPager(mViewPager);
-
         int which = getWhich();
         if (which < mStr.length)
             mTabMenu.change(which);
-
     }
-
 
     protected int getWhich() {
         return 0;
     }
 
-
     @Override
     protected void initListener() {
     }
-
-
 }

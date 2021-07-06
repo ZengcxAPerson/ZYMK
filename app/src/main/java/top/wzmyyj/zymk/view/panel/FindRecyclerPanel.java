@@ -1,5 +1,6 @@
 package top.wzmyyj.zymk.view.panel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,20 +19,28 @@ import top.wzmyyj.wzm_sdk.utils.DensityUtil;
 import top.wzmyyj.zymk.contract.FindContract;
 import top.wzmyyj.zymk.base.panel.BaseRecyclerPanel;
 
-
 /**
  * Created by yyj on 2018/08/01. email: 2209011667@qq.com
  */
-
+@SuppressLint("NonConstantResourceId")
 public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindContract.IPresenter> {
+
+    protected TextView tvEmpty;
+    protected View mMenu;
+    protected TextView tvNum;
+    protected ImageView imgPl;
+    protected ImageView imgGg;
+    protected LinearLayout llBottom;
+    protected TextView tvSelectAll;
+    protected TextView tvDelete;
+    protected TextView tvEnd;
+    protected boolean isGrid = false;
+    protected boolean isCanSelect;
+    protected final List<T> mSelectedList = new ArrayList<>();
+
     public FindRecyclerPanel(Context context, FindContract.IPresenter p) {
         super(context, p);
     }
-
-
-    protected boolean isGongge = false;
-
-    protected View mMenu;
 
     @Override
     protected void initView() {
@@ -43,74 +52,49 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
         mFrameLayout.addView(mMenu);
     }
 
-
-    protected TextView tv_num;
-    protected ImageView img_piliang;
-    protected ImageView img_gongge;
-
-    protected LinearLayout ll_bottom;
-    protected TextView tv_select_all;
-    protected TextView tv_delete;
-
-
     protected void setMenu() {
-        mMenu = mInflater.inflate(R.layout.layout_find_menu, null);
-        tv_num = mMenu.findViewById(R.id.tv_favor_num);
-        img_piliang = mMenu.findViewById(R.id.img_favor_piliang);
-        img_gongge = mMenu.findViewById(R.id.img_favor_gongge);
-        ll_bottom = mMenu.findViewById(R.id.ll_bottom);
-        tv_select_all = mMenu.findViewById(R.id.tv_select_all);
-        tv_delete = mMenu.findViewById(R.id.tv_delete);
-        ll_bottom.setVisibility(View.GONE);
+        mMenu = mInflater.inflate(R.layout.layout_find_menu, mFrameLayout);
+        tvNum = mMenu.findViewById(R.id.tv_favor_num);
+        imgPl = mMenu.findViewById(R.id.img_favor_pl);
+        imgGg = mMenu.findViewById(R.id.img_favor_gg);
+        llBottom = mMenu.findViewById(R.id.ll_bottom);
+        tvSelectAll = mMenu.findViewById(R.id.tv_select_all);
+        tvDelete = mMenu.findViewById(R.id.tv_delete);
+        llBottom.setVisibility(View.GONE);
+        imgPl.setOnClickListener(v -> {
+            if (mData.size() == 0) return;
+            if (isCanSelect) {
+                isCanSelect = false;
+                mSelectedList.clear();
+                llBottom.setVisibility(View.GONE);
+            } else {
+                isCanSelect = true;
+                llBottom.setVisibility(View.VISIBLE);
+            }
+            notifyDataSetChanged();
+        });
+        imgGg.setOnClickListener(v -> {
+            if (mData.size() == 0) return;
+            if (isGrid) {
+                isGrid = false;
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                isGrid = true;
+                mRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
 
-        img_piliang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mData.size() == 0) return;
-                if (isCanSelect) {
-                    isCanSelect = false;
-                    mSelectedList.clear();
-                    ll_bottom.setVisibility(View.GONE);
-                    notifyDataSetChanged();
-                } else {
-                    isCanSelect = true;
-                    ll_bottom.setVisibility(View.VISIBLE);
-                    notifyDataSetChanged();
-                }
+            }
+            notifyDataSetChanged();
+        });
+        tvSelectAll.setOnClickListener(v -> {
+            if (mSelectedList.size() == mData.size()) {
+                unSelect_all();
+            } else {
+                select_all();
             }
         });
-        img_gongge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mData.size() == 0) return;
-                if (isGongge) {
-                    isGongge = false;
-                    mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    notifyDataSetChanged();
-                } else {
-                    isGongge = true;
-                    mRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-                    notifyDataSetChanged();
-
-                }
-            }
-        });
-        tv_select_all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSelectedList.size() == mData.size()) {
-                    unSelect_all();
-                } else {
-                    select_all();
-                }
-            }
-        });
-        tv_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSelectedList.size() == 0) return;
-                delete(getLongIds());
-            }
+        tvDelete.setOnClickListener(v -> {
+            if (mSelectedList.size() == 0) return;
+            delete(getLongIds());
         });
     }
 
@@ -119,57 +103,50 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
         if (isCanSelect) {
             isCanSelect = false;
             mSelectedList.clear();
-            ll_bottom.setVisibility(View.GONE);
-            notifyDataSetChanged();
+            llBottom.setVisibility(View.GONE);
         } else {
             isCanSelect = true;
-            ll_bottom.setVisibility(View.VISIBLE);
-            notifyDataSetChanged();
+            llBottom.setVisibility(View.VISIBLE);
         }
+        notifyDataSetChanged();
         return false;
     }
 
     private void updateMenuView() {
-        tv_num.setText("共" + mData.size() + "本");
+        tvNum.setText(("共" + mData.size() + "本"));
         if (mData.size() == 0) {
-            img_piliang.setImageResource(R.mipmap.ico_piliang_unavailable);
-
-            if (isGongge) {
-                img_gongge.setImageResource(R.mipmap.ico_liebiao_unavailable);
+            imgPl.setImageResource(R.mipmap.ico_piliang_unavailable);
+            if (isGrid) {
+                imgGg.setImageResource(R.mipmap.ico_liebiao_unavailable);
             } else {
-                img_gongge.setImageResource(R.mipmap.ico_jiugongge_unavailable);
+                imgGg.setImageResource(R.mipmap.ico_jiugongge_unavailable);
             }
-            ll_bottom.setVisibility(View.GONE);
+            llBottom.setVisibility(View.GONE);
         } else {
             if (isCanSelect) {
-                img_piliang.setImageResource(R.mipmap.ico_piliang2);
+                imgPl.setImageResource(R.mipmap.ico_piliang2);
             } else {
-                img_piliang.setImageResource(R.mipmap.ico_piliang);
+                imgPl.setImageResource(R.mipmap.ico_piliang);
             }
-            if (isGongge) {
-                img_gongge.setImageResource(R.mipmap.ico_liebiao);
+            if (isGrid) {
+                imgGg.setImageResource(R.mipmap.ico_liebiao);
             } else {
-                img_gongge.setImageResource(R.mipmap.ico_jiugongge);
+                imgGg.setImageResource(R.mipmap.ico_jiugongge);
             }
         }
-
-
-
         if (mSelectedList.size() != mData.size()) {
-            tv_select_all.setText("全选");
+            tvSelectAll.setText("全选");
         } else {
-            tv_select_all.setText("取消");
+            tvSelectAll.setText("取消");
         }
         if (mSelectedList.size() != 0) {
-            tv_delete.setText("删除（" + mSelectedList.size() + "）");
-            tv_delete.setTextColor(context.getResources().getColor(R.color.colorGray_9));
+            tvDelete.setText(("删除（" + mSelectedList.size() + "）"));
+            tvDelete.setTextColor(context.getResources().getColor(R.color.colorGray_9));
         } else {
-            tv_delete.setText("删除");
-            tv_delete.setTextColor(context.getResources().getColor(R.color.colorGray_b));
+            tvDelete.setText("删除");
+            tvDelete.setTextColor(context.getResources().getColor(R.color.colorGray_b));
         }
     }
-
-    protected List<T> mSelectedList = new ArrayList<>();
 
     protected void unSelect_all() {
         mSelectedList.clear();
@@ -181,7 +158,6 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
         mSelectedList.addAll(mData);
         notifyDataSetChanged();
     }
-
 
     protected void select(T t) {
         mSelectedList.add(t);
@@ -210,19 +186,14 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
 
     protected abstract Long getLongId(T t);
 
-
     @Override
     protected void notifyDataSetChanged() {
         super.notifyDataSetChanged();
         updateMenuView();
     }
 
-
-    protected boolean isCanSelect;
-
-
     public void setFindData(List<T> list) {
-        if(list==null)return;
+        if (list == null) return;
         mData.clear();
         mData.addAll(list);
         notifyDataSetChanged();
@@ -234,24 +205,19 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
         notifyDataSetChanged();
     }
 
-    protected TextView tv_end;
-
     @Override
     protected void setFooter() {
         super.setFooter();
-        mFooter = mInflater.inflate(R.layout.layout_footer2, null);
-        tv_end = mFooter.findViewById(R.id.tv_end);
-        tv_end.setText("-- 没有了哦 --");
+        mFooter = mInflater.inflate(R.layout.layout_footer2, mRecyclerView);
+        tvEnd = mFooter.findViewById(R.id.tv_end);
+        tvEnd.setText("-- 没有了哦 --");
         mFooter.setVisibility(View.GONE);
     }
 
-
-    protected TextView tv_empty;
-
     @Override
     protected void setEmpty() {
-        mEmpty = mInflater.inflate(R.layout.layout_empty, null);
-        tv_empty = mEmpty.findViewById(R.id.tv_empty_text);
+        mEmpty = mInflater.inflate(R.layout.layout_empty, mEmptyLayout);
+        tvEmpty = mEmpty.findViewById(R.id.tv_empty_text);
         mEmpty.setVisibility(View.GONE);
     }
 
@@ -259,7 +225,7 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
     protected void upHeaderAndFooter() {
         super.upHeaderAndFooter();
         if (mData.size() == 0) return;
-        if (isGongge) {
+        if (isGrid) {
             mFooter.setVisibility(View.GONE);
         } else {
             mFooter.setVisibility(View.VISIBLE);

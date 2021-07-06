@@ -53,5 +53,4 @@ public class SearchHistoryDb {
     public void setSearch_time(long search_time) {
         this.search_time = search_time;
     }
-
 }

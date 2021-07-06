@@ -1,5 +1,6 @@
 package top.wzmyyj.wzm_sdk.panel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
@@ -14,24 +15,19 @@ import top.wzmyyj.wzm_sdk.R;
 /**
  * Created by wzm on 2018/05/05. email: 2209011667@qq.com
  */
-
-
 public abstract class NestedScrollPanel extends InitPanel {
-
 
     protected NestedScrollView mNestedScrollView;
     protected SmartRefreshLayout mRefreshLayout;
     protected FrameLayout mFrameLayout;
     protected View contentView;
-
-
     protected int delayed_r = 1500, delayed_l = 1000;
 
     public NestedScrollPanel(Context context) {
         super(context);
     }
 
-
+    @SuppressLint("InflateParams")
     @Override
     protected void initView() {
         view = mInflater.inflate(R.layout.panel_ns, null);
@@ -44,14 +40,12 @@ public abstract class NestedScrollPanel extends InitPanel {
         mRefreshLayout.setPrimaryColorsId(R.color.colorRefresh, R.color.colorWhite);
         contentView = mInflater.inflate(getContentViewId(), null);
         mNestedScrollView.addView(contentView);
-
     }
 
     protected abstract int getContentViewId();
 
     @Override
     protected void initData() {
-
     }
 
     @Override
@@ -76,12 +70,9 @@ public abstract class NestedScrollPanel extends InitPanel {
     }
 
     protected void loadMore() {
-
     }
 
     protected void update() {
-
-
     }
 
     public void updateWithView() {
@@ -91,6 +82,5 @@ public abstract class NestedScrollPanel extends InitPanel {
     }
 
     protected void updateView() {
-
     }
 }

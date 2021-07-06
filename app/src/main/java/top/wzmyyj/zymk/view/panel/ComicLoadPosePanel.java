@@ -14,13 +14,21 @@ import top.wzmyyj.zymk.R;
 import top.wzmyyj.zymk.contract.ComicContract;
 import top.wzmyyj.zymk.base.panel.BasePanel;
 
-
 /**
  * Created by yyj on 2018/08/06. email: 2209011667@qq.com
  */
+@SuppressLint("NonConstantResourceId")
+public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
 
-public class ComicLoadPasePanel extends BasePanel<ComicContract.IPresenter> {
-    public ComicLoadPasePanel(Context context, ComicContract.IPresenter p) {
+    @BindView(R.id.img_loadpose)
+    ImageView imgLoadPose;
+    @BindView(R.id.tv_loadpose)
+    TextView tvLoadPose;
+
+    private int count = 0;
+    private int status = -1;
+
+    public ComicLoadPosePanel(Context context, ComicContract.IPresenter p) {
         super(context, p);
     }
 
@@ -29,21 +37,15 @@ public class ComicLoadPasePanel extends BasePanel<ComicContract.IPresenter> {
         return R.layout.layout_comic_loadpose;
     }
 
-    @BindView(R.id.img_loadpose)
-    ImageView img_loadpose;
-    @BindView(R.id.tv_loadpose)
-    TextView tv_loadpose;
-
     @OnClick(R.id.tv_loadpose)
     public void reLoad() {
         if (status == -1) {
             mHandler.sendEmptyMessage(1);
             mPresenter.loadData();
-            tv_loadpose.setText("正在加载中。。。");
-            tv_loadpose.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            tvLoadPose.setText("正在加载中。。。");
+            tvLoadPose.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         }
     }
-
 
     @Override
     protected void initData() {
@@ -53,20 +55,18 @@ public class ComicLoadPasePanel extends BasePanel<ComicContract.IPresenter> {
         mHandler.sendEmptyMessage(1);
     }
 
-
     @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    img_loadpose.setImageResource(R.mipmap.pic_loadpose1);
+                    imgLoadPose.setImageResource(R.mipmap.pic_loadpose1);
                     mHandler.sendEmptyMessageDelayed(2, 200);
                     break;
                 case 2:
-                    img_loadpose.setImageResource(R.mipmap.pic_loadpose2);
+                    imgLoadPose.setImageResource(R.mipmap.pic_loadpose2);
                     mHandler.sendEmptyMessageDelayed(1, 200);
                     break;
                 default:
@@ -74,7 +74,6 @@ public class ComicLoadPasePanel extends BasePanel<ComicContract.IPresenter> {
                     mHandler.removeMessages(2);
                     break;
             }
-
             count++;
             if (status == 0 && count > 7) {
                 mHandler.sendEmptyMessage(0);
@@ -82,8 +81,6 @@ public class ComicLoadPasePanel extends BasePanel<ComicContract.IPresenter> {
             }
         }
     };
-    private int count = 0;
-    private int status = -1;
 
     public void loadSuccess() {
         status = 0;
@@ -91,9 +88,9 @@ public class ComicLoadPasePanel extends BasePanel<ComicContract.IPresenter> {
 
     public void loadFail() {
         mHandler.sendEmptyMessage(0);
-        tv_loadpose.setText("加载失败，点击重试！");
-        tv_loadpose.setTextColor(context.getResources().getColor(R.color.colorRed));
-        img_loadpose.setImageResource(R.mipmap.pic_load_error);
+        tvLoadPose.setText("加载失败，点击重试！");
+        tvLoadPose.setTextColor(context.getResources().getColor(R.color.colorRed));
+        imgLoadPose.setImageResource(R.mipmap.pic_load_error);
     }
 
     @Override

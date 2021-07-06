@@ -7,7 +7,7 @@ import android.util.TypedValue;
  * Created by yyj on 2018/07/16. email: 2209011667@qq.com
  * 常用单位转换的辅助类，涉及到单位转换的方法都在这里.
  */
-
+@SuppressWarnings("unused")
 public class DensityUtil {
     /**
      * dp转px

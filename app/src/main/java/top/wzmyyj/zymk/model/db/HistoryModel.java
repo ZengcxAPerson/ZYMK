@@ -48,10 +48,10 @@ public class HistoryModel {
         book.setTitle(db.getTitle());
         bean.setBook(book);
         ChapterBean chapter = new ChapterBean();
-        chapter.setChapter_id(db.getHistory_chapter_id());
-        chapter.setChapter_name(db.getHistory_chapter_name());
+        chapter.setChapterId(db.getHistory_chapter_id());
+        chapter.setChapterName(db.getHistory_chapter_name());
         bean.setChapter(chapter);
-        bean.setRead_time(db.getHistory_read_time());
+        bean.setReadTime(db.getHistory_read_time());
         return bean;
     }
 
@@ -88,15 +88,15 @@ public class HistoryModel {
                     // 有的话，更新数据后返回。
                     if (dd != null) {
                         dd.setHistory_read_time(TimeUtil.getTime());
-                        dd.setHistory_chapter_id(chapter.getChapter_id());
-                        dd.setHistory_chapter_name(chapter.getChapter_name());
+                        dd.setHistory_chapter_id(chapter.getChapterId());
+                        dd.setHistory_chapter_name(chapter.getChapterName());
                         mDao.update(dd);
                         HistoryBean bean = db2bean(dd);
                         observableEmitter.onNext(bean);//更新后的对象。
                     } else {
                         // 插入。
-                        HistoryDb db = new HistoryDb((long) book.getId(), book.getTitle(), chapter.getChapter_id(),
-                                chapter.getChapter_name(), TimeUtil.getTime());
+                        HistoryDb db = new HistoryDb((long) book.getId(), book.getTitle(), chapter.getChapterId(),
+                                chapter.getChapterName(), TimeUtil.getTime());
                         mDao.insert(db);
                         // 转化。
                         HistoryBean bean = db2bean(db);

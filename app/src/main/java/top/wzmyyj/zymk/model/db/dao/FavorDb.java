@@ -67,6 +67,4 @@ public class FavorDb {
     public void setIsUnRead(boolean isUnRead) {
         this.isUnRead = isUnRead;
     }
-
-
 }
