@@ -98,4 +98,16 @@ public class A {
     public void into(View view) {
         view.setAnimation(animSet);
     }
+
+    public interface AListener extends Animation.AnimationListener {
+
+        default void onAnimationStart(Animation var1) {
+        }
+
+        default void onAnimationEnd(Animation var1) {
+        }
+
+        default void onAnimationRepeat(Animation var1) {
+        }
+    }
 }

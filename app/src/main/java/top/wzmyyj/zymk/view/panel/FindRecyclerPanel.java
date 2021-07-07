@@ -52,8 +52,9 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
         mFrameLayout.addView(mMenu);
     }
 
+    @SuppressLint("InflateParams")
     protected void setMenu() {
-        mMenu = mInflater.inflate(R.layout.layout_find_menu, mFrameLayout);
+        mMenu = mInflater.inflate(R.layout.layout_find_menu, null);
         tvNum = mMenu.findViewById(R.id.tv_favor_num);
         imgPl = mMenu.findViewById(R.id.img_favor_pl);
         imgGg = mMenu.findViewById(R.id.img_favor_gg);
@@ -115,23 +116,23 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
     private void updateMenuView() {
         tvNum.setText(("共" + mData.size() + "本"));
         if (mData.size() == 0) {
-            imgPl.setImageResource(R.mipmap.ico_piliang_unavailable);
+            imgPl.setImageResource(R.mipmap.ico_pl_unavailable);
             if (isGrid) {
                 imgGg.setImageResource(R.mipmap.ico_liebiao_unavailable);
             } else {
-                imgGg.setImageResource(R.mipmap.ico_jiugongge_unavailable);
+                imgGg.setImageResource(R.mipmap.ico_9gg_unavailable);
             }
             llBottom.setVisibility(View.GONE);
         } else {
             if (isCanSelect) {
-                imgPl.setImageResource(R.mipmap.ico_piliang2);
+                imgPl.setImageResource(R.mipmap.ico_pl2);
             } else {
-                imgPl.setImageResource(R.mipmap.ico_piliang);
+                imgPl.setImageResource(R.mipmap.ico_pl);
             }
             if (isGrid) {
-                imgGg.setImageResource(R.mipmap.ico_liebiao);
+                imgGg.setImageResource(R.mipmap.ico_lb);
             } else {
-                imgGg.setImageResource(R.mipmap.ico_jiugongge);
+                imgGg.setImageResource(R.mipmap.ico_9gg);
             }
         }
         if (mSelectedList.size() != mData.size()) {
@@ -205,18 +206,21 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
         notifyDataSetChanged();
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void setFooter() {
         super.setFooter();
-        mFooter = mInflater.inflate(R.layout.layout_footer2, mRecyclerView);
+        mFooter = mInflater.inflate(R.layout.layout_footer2, null);
         tvEnd = mFooter.findViewById(R.id.tv_end);
         tvEnd.setText("-- 没有了哦 --");
+        mFooter.setBackgroundResource(R.color.colorWhite);
         mFooter.setVisibility(View.GONE);
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void setEmpty() {
-        mEmpty = mInflater.inflate(R.layout.layout_empty, mEmptyLayout);
+        mEmpty = mInflater.inflate(R.layout.layout_empty, null);
         tvEmpty = mEmpty.findViewById(R.id.tv_empty_text);
         mEmpty.setVisibility(View.GONE);
     }

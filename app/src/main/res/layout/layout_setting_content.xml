@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp">
 
     <View
         android:layout_width="match_parent"
@@ -19,8 +21,10 @@
         android:layout_height="35dp"
         android:background="@color/colorWhite"
         android:gravity="bottom"
-        android:paddingBottom="5dp"
+        android:paddingStart="20dp"
         android:paddingLeft="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="5dp"
         android:text="基本设置："
         android:textColor="@color/colorBlue"
         android:textSize="13sp" />
@@ -30,19 +34,20 @@
         android:layout_height="0.1dp"
         android:background="@color/colorLine" />
 
-
     <LinearLayout
         android:id="@+id/ll_m_1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/click_bg1"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="bottom"
@@ -54,10 +59,12 @@
             android:id="@+id/tv_m_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="10MB"
             android:textColor="@color/colorGray_9"
             android:textSize="12sp" />
+
     </LinearLayout>
 
     <View
@@ -73,12 +80,14 @@
         android:layout_height="55dp"
         android:background="@drawable/click_bg1"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="bottom"
@@ -90,6 +99,7 @@
             android:id="@+id/tv_m_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="是"
             android:textColor="@color/colorGray_9"
@@ -109,12 +119,14 @@
         android:layout_height="55dp"
         android:background="@drawable/click_bg1"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="bottom"
@@ -126,12 +138,13 @@
             android:id="@+id/tv_m_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="1.0"
             android:textColor="@color/colorGray_9"
             android:textSize="12sp" />
-    </LinearLayout>
 
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -153,12 +166,13 @@
         android:layout_height="35dp"
         android:background="@color/colorWhite"
         android:gravity="bottom"
-        android:paddingBottom="5dp"
+        android:paddingStart="20dp"
         android:paddingLeft="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="5dp"
         android:text="项目相关："
         android:textColor="@color/colorBlue"
         android:textSize="13sp" />
-
 
     <View
         android:layout_width="match_parent"
@@ -171,12 +185,14 @@
         android:layout_height="55dp"
         android:background="@drawable/click_bg1"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="bottom"
@@ -187,13 +203,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="@string/mine_github2"
             android:textColor="@color/colorGray_9"
             android:textSize="10sp" />
 
     </LinearLayout>
-
 
     <View
         android:layout_width="match_parent"
@@ -208,28 +224,31 @@
         android:layout_height="55dp"
         android:background="@drawable/click_bg1"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="bottom"
             android:text="关于作者"
             android:textColor="@color/colorGray_5"
             android:textSize="14sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="@string/wzmyyj"
             android:textColor="@color/colorGray_9"
             android:textSize="12sp" />
 
     </LinearLayout>
-
 
     <View
         android:layout_width="match_parent"
@@ -238,32 +257,36 @@
         android:layout_marginRight="15dp"
         android:background="@color/colorLine" />
 
-
     <LinearLayout
         android:id="@+id/ll_p_3"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/click_bg1"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="bottom"
             android:text="问题反馈"
             android:textColor="@color/colorGray_5"
             android:textSize="14sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="@string/call_author"
             android:textColor="@color/colorGray_9"
             android:textSize="12sp" />
+
     </LinearLayout>
 
     <View
@@ -286,8 +309,10 @@
         android:layout_height="35dp"
         android:background="@color/colorWhite"
         android:gravity="bottom"
-        android:paddingBottom="5dp"
+        android:paddingStart="20dp"
         android:paddingLeft="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="5dp"
         android:text="免责声明："
         android:textColor="@color/colorBlue"
         android:textSize="13sp" />
@@ -307,7 +332,6 @@
         android:textColor="@color/colorGray_b"
         android:textSize="13sp" />
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -326,4 +350,5 @@
         android:layout_width="match_parent"
         android:layout_height="15dp"
         android:background="@color/colorGray_g" />
+
 </LinearLayout>

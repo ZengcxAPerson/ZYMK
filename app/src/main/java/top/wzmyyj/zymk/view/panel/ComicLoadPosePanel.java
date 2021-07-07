@@ -20,9 +20,9 @@ import top.wzmyyj.zymk.base.panel.BasePanel;
 @SuppressLint("NonConstantResourceId")
 public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
 
-    @BindView(R.id.img_loadpose)
+    @BindView(R.id.img_load_pose)
     ImageView imgLoadPose;
-    @BindView(R.id.tv_loadpose)
+    @BindView(R.id.tv_load_pose)
     TextView tvLoadPose;
 
     private int count = 0;
@@ -37,7 +37,7 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
         return R.layout.layout_comic_loadpose;
     }
 
-    @OnClick(R.id.tv_loadpose)
+    @OnClick(R.id.tv_load_pose)
     public void reLoad() {
         if (status == -1) {
             mHandler.sendEmptyMessage(1);
@@ -62,7 +62,7 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    imgLoadPose.setImageResource(R.mipmap.pic_loadpose1);
+                    imgLoadPose.setImageResource(R.mipmap.pic_load_pose1);
                     mHandler.sendEmptyMessageDelayed(2, 200);
                     break;
                 case 2:

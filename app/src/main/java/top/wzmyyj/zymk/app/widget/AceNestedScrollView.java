@@ -1,5 +1,6 @@
 package top.wzmyyj.zymk.app.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -83,16 +84,9 @@ public class AceNestedScrollView extends NestedScrollView {
         }
     }
 
-    @Override
-    public boolean performClick() {
-        return super.performClick();
-    }
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            performClick();
-        }
         int action = ev.getAction();
         switch (action) {
             case MotionEvent.ACTION_UP:

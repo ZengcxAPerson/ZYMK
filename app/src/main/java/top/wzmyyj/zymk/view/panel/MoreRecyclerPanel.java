@@ -109,18 +109,20 @@ public class MoreRecyclerPanel extends BaseRecyclerPanel<BookBean, MoreContract.
         notifyDataSetChanged();
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void setHeader() {
         super.setHeader();
-        mHeader = mInflater.inflate(R.layout.activity_more_header, mRecyclerView);
+        mHeader = mInflater.inflate(R.layout.activity_more_header, null);
         imgHeader = mHeader.findViewById(R.id.img_1);
         tvHeader = mHeader.findViewById(R.id.tv_1);
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void setFooter() {
         super.setFooter();
-        mFooter = mInflater.inflate(R.layout.layout_footer, mRecyclerView);
+        mFooter = mInflater.inflate(R.layout.layout_footer, null);
         tvEnd = mFooter.findViewById(R.id.tv_end);
         tvEnd.setText(("-- 共推荐" + mData.size() + "个 --"));
     }

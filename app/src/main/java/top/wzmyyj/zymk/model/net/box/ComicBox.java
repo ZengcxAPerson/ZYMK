@@ -89,7 +89,6 @@ public class ComicBox {
         }
     }
 
-
     public static class Deserializer2 implements JsonDeserializer<ComicBox> {
         @Override
         public ComicBox deserialize(JsonElement json, Type arg1,

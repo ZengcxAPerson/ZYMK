@@ -159,6 +159,7 @@ public class SearchActivity extends BaseActivity<SearchContract.IPresenter> impl
             String title = mHotList.get(i).getTitle();
             String href = mHotList.get(i).getHref();
             mPresenter.goDetails(href, title);
+            mPresenter.addHistory(title);
         });
         mShAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
@@ -177,6 +178,7 @@ public class SearchActivity extends BaseActivity<SearchContract.IPresenter> impl
                 String title = mSmartList.get(position).getTitle();
                 String href = mSmartList.get(position).getHref();
                 mPresenter.goDetails(href, title);
+                mPresenter.addHistory(title);
             }
 
             @Override
@@ -227,7 +229,7 @@ public class SearchActivity extends BaseActivity<SearchContract.IPresenter> impl
     }
 
     private void notifyHistoryChanged() {
-        if (mShList == null || mShList.size() == 0) {
+        if (mShList.size() == 0) {
             llHistory.setVisibility(View.GONE);
         } else {
             llHistory.setVisibility(View.VISIBLE);

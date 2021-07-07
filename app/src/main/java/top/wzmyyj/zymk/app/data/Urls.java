@@ -8,30 +8,29 @@ public class Urls {
     public final static String ZYMK_Base = "https://m.zymk.cn/";
     // 全部漫画
     public final static String ZYMK_All = ZYMK_Base + "sort/all.html";
-    // 搜索
 
-    /////////////////////////// api
+    // api
     public final static String ZYMK_BaseApi = "https://api.zymk.cn/";
     // 热门搜索
     public final static String API_HotSearch = "app_api/v5/gethotsearch/";
     // 匹配搜索
-    public final static String API_SmartSearch = "app_api/v5/getsortlist_new/"; // kry
+    public final static String API_SmartSearch = "apinew/getsortlist_new/"; // key
     // 漫画信息
     public final static String API_GetComic = "app_api/v5/getcomic/"; // comic_id
     // 漫画详细信息
     public final static String API_GetComicInfo = "app_api/v5/getcomicinfo/"; // comic_id
 
     // 活动列表
-    public static String ZYMK_Activity = "https://activity.zymk.cn/find/";
+    public final static String ZYMK_Activity = "https://activity.zymk.cn/find/";
     // 天猫商城
-    public static String ZYMK_TMall = "https://zymk.m.tmall.com/";
+    public final static String ZYMK_TMall = "https://zymk.m.tmall.com/";
     // 图片
-    public static String ZYMK_Comic = "http://mhpic.xiaomingtaiji.net/comic/";
+    public final static String ZYMK_Comic = "http://mhpic.xiaomingtaiji.net/comic/";
     // 封面
-    public static String ZYMK_Image = "https://image.zymkcdn.com/file/cover/?.jpg-300x400.webp";
+    public final static String ZYMK_Image = "https://image.zymkcdn.com/file/cover/?.jpg-300x400.webp";
 
     // GitHub
-    public static String YYJ_GitHub = "https://github.com/wzmyyj/ZYMK";
+    public final static String YYJ_GitHub = "https://github.com/wzmyyj/ZYMK";
     // 关于作者
-    public static String YYJ_About = "http://wzmyyj.top/about";
+    public final static String YYJ_About = "http://wzmyyj.top/about";
 }

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,12 +34,13 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_gravity="bottom"
-            android:src="@mipmap/svg_booklist_up" />
+            android:src="@mipmap/svg_book_list_up" />
 
         <TextView
             android:id="@+id/tv_mu_xu"
             android:layout_width="35dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="1dp"
             android:layout_marginLeft="1dp"
             android:gravity="bottom"
             android:text="升序"
@@ -58,6 +61,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:paddingBottom="18dp">
 
@@ -65,18 +69,20 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/svg_booklist_left" />
+                android:src="@mipmap/svg_book_list_left" />
 
             <TextView
                 android:id="@+id/tv_left"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/click_bg"
@@ -84,6 +90,7 @@
                 android:text="上一页"
                 android:textColor="@color/colorGray_7"
                 android:textSize="12sp" />
+
         </LinearLayout>
 
         <android.support.design.widget.TabLayout
@@ -108,12 +115,14 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
             <TextView
                 android:id="@+id/tv_right"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/click_bg"
@@ -126,10 +135,10 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/svg_booklist_right" />
-
+                android:src="@mipmap/svg_book_list_right" />
 
         </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>

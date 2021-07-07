@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="55dp">
+    android:layout_height="55dp"
+    tools:ignore="HardcodedText,ContentDescription">
 
     <LinearLayout
         android:id="@+id/ll_ach_bg"
@@ -9,7 +11,8 @@
         android:layout_height="40dp"
         android:layout_margin="5dp"
         android:background="@drawable/bg_zi_1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
 
         <TextView
             android:id="@+id/tv_ach_str"
@@ -18,16 +21,20 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
+            android:paddingStart="5dp"
             android:paddingLeft="5dp"
+            android:paddingEnd="5dp"
             android:text="GGG"
             android:textColor="@color/colorWhite"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
 
         <ImageView
             android:id="@+id/img_ach_icon"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_margin="3dp" />
+
     </LinearLayout>
 
 </LinearLayout>

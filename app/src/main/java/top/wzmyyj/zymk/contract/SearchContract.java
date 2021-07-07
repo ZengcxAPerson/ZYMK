@@ -41,6 +41,8 @@ public interface SearchContract {
 
         void delAllHistory();
 
+        void addHistory(String key);
+
         void goDetails(String href, String title);
     }
 }

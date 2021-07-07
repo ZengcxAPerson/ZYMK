@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_catalog"
     android:layout_width="150dp"
     android:layout_height="match_parent"
-    android:layout_gravity="right"
+    android:layout_gravity="end"
     android:background="@color/colorAhp_Black"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,13 +51,12 @@
             android:text="正序"
             android:textColor="@color/colorGray_e"
             android:textSize="14sp" />
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_catalog"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

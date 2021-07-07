@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_logo_girl" />
+            android:src="@mipmap/ic_logo_girl"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,7 +29,6 @@
             android:textColor="@color/colorPrimary"
             android:textSize="12sp" />
     </FrameLayout>
-
 
     <TextView
         android:layout_width="match_parent"
@@ -41,12 +43,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="@string/launch_github"
         android:textColor="@color/colorGray_b"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        tools:ignore="SmallSp" />
 
 </LinearLayout>

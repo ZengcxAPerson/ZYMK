@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,ContentDescription">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -12,7 +14,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/et_text"
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -25,13 +27,14 @@
             android:padding="5dp"
             android:text=""
             android:textColor="@color/colorPrimary"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/click_bg"
@@ -42,7 +45,8 @@
             android:id="@+id/img_search"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_gravity="right|center_vertical"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/click_bg"
             android:padding="13dp"
@@ -59,20 +63,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingTop="10dp"
+                android:paddingRight="10dp"
                 android:text="热门搜索"
                 android:textColor="@color/colorGray_5"
                 android:textSize="14sp" />
@@ -96,9 +98,7 @@
                     app:tag_layout_vertical_interval="10dp"
                     app:tag_view_border_color="@color/colorClarity"
                     app:tag_view_text_color="@color/colorWhite"
-                    app:tag_view_text_size="13sp">
-
-                </com.dl7.tag.TagLayout>
+                    app:tag_view_text_size="13sp" />
 
             </LinearLayout>
 
@@ -135,9 +135,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_history"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" />
 
-            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -145,9 +144,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorGray_h"
-            android:visibility="gone">
+            android:visibility="gone" />
 
-        </android.support.v7.widget.RecyclerView>
     </FrameLayout>
 
 </LinearLayout>

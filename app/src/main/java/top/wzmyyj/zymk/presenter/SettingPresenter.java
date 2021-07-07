@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import top.wzmyyj.wzm_sdk.tools.P;
 import top.wzmyyj.wzm_sdk.utils.PackageUtil;
-import top.wzmyyj.zymk.app.data.Keys;
+import top.wzmyyj.zymk.app.data.Config;
 import top.wzmyyj.zymk.app.data.Urls;
 import top.wzmyyj.zymk.app.helper.GlideCacheHelper;
 import top.wzmyyj.zymk.app.helper.IntentHelper;
@@ -37,7 +37,7 @@ public class SettingPresenter extends BasePresenter<SettingContract.IView> imple
 
     @Override
     public void goFeedback() {
-        IntentHelper.toQQChat(mActivity, Keys.QQ_Number);
+        IntentHelper.toQQChat(mActivity, Config.QQ_Number);
     }
 
     @Override

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="ContentDescription">
 
     <LinearLayout
         android:id="@+id/ll_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
-
+        android:orientation="vertical" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,14 +23,13 @@
             android:layout_height="0dp" />
 
         <FrameLayout
-
             android:layout_width="match_parent"
             android:layout_height="45dp">
 
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="7dp"
@@ -38,13 +38,14 @@
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="12dp"
                 android:src="@mipmap/svg_white_nav_bar_back" />
 
         </FrameLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -68,7 +69,7 @@
                 android:id="@+id/img_back"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/click_bg"
@@ -90,6 +91,9 @@
                 android:layout_height="0.1dp"
                 android:layout_gravity="bottom"
                 android:background="@color/colorLine" />
+
         </FrameLayout>
+
     </LinearLayout>
+
 </FrameLayout>

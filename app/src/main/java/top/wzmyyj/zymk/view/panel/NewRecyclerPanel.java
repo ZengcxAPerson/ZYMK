@@ -77,10 +77,11 @@ public class NewRecyclerPanel extends BaseRecyclerPanel<BookBean, NewContract.IP
         notifyDataSetChanged();
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void setFooter() {
         super.setFooter();
-        mFooter = mInflater.inflate(R.layout.layout_footer, mRecyclerView);
+        mFooter = mInflater.inflate(R.layout.layout_footer, null);
         TextView tv = mFooter.findViewById(R.id.tv_end);
         tv.setText("-- 没有了哦 --");
     }

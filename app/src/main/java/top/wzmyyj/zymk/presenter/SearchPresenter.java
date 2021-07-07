@@ -91,7 +91,8 @@ public class SearchPresenter extends BasePresenter<SearchContract.IView> impleme
         });
     }
 
-    private void addHistory(String word) {
+    @Override
+    public void addHistory(String word) {
         mModel2.insert(word, new BaseObserver<SearchHistoryBean>() {
             @Override
             public void onNext(@NonNull SearchHistoryBean bean) {
@@ -137,7 +138,6 @@ public class SearchPresenter extends BasePresenter<SearchContract.IView> impleme
 
     @Override
     public void goDetails(String href, String title) {
-        addHistory(title);
         if (href.contains(Urls.ZYMK_Base)) {
             IntentHelper.toDetailsActivity(mActivity, href);
         } else {

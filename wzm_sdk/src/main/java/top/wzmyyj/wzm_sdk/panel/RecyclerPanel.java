@@ -1,5 +1,6 @@
 package top.wzmyyj.wzm_sdk.panel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,6 +43,7 @@ public abstract class RecyclerPanel<T> extends InitPanel implements MultiItemTyp
         super(context);
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void initView() {
         view = mInflater.inflate(R.layout.panel_sr, null);
@@ -89,7 +91,7 @@ public abstract class RecyclerPanel<T> extends InitPanel implements MultiItemTyp
             mAdapter.addItemViewDelegate(ivd);
         }
         mAdapter.setOnItemClickListener(this);
-        mHeaderAndFooterWrapper =new HeaderAndFooterWrapper<>(mAdapter);
+        mHeaderAndFooterWrapper = new HeaderAndFooterWrapper<>(mAdapter);
         if (mHeader != null)
             mHeaderAndFooterWrapper.addHeaderView(mHeader);
         if (mFooter != null)

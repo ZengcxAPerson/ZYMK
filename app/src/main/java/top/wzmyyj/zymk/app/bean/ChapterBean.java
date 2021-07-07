@@ -13,8 +13,6 @@ public class ChapterBean {
     long chapterId;
     @SerializedName("chapter_name")
     String chapterName;
-//    @SerializedName("chapter_title")
-//    String chapterTitle;
     @SerializedName("start_var")
     int startVar;
     @SerializedName("end_var")
@@ -49,10 +47,6 @@ public class ChapterBean {
         return chapterName;
     }
 
-//    public String getChapterTitle() {
-//        return chapterTitle;
-//    }
-
     public int getStartVar() {
         return startVar;
     }
@@ -63,6 +57,10 @@ public class ChapterBean {
 
     public int getPrice() {
         return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public String getFirstImageLow(int i) {

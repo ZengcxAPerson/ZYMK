@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="140dp"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,20 +40,21 @@
                 android:id="@+id/tv_star"
                 android:layout_width="35dp"
                 android:layout_height="15dp"
-                android:layout_gravity="right|top"
+                android:layout_gravity="end|top"
                 android:background="@color/black_overlay"
                 android:gravity="center"
                 android:paddingLeft="3dp"
                 android:paddingRight="3dp"
                 android:textColor="@color/colorWhite"
                 android:textSize="10sp" />
-        </FrameLayout>
 
+        </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:padding="5dp">
 
             <TextView
@@ -66,7 +68,6 @@
                 android:textColor="@color/colorGray_5"
                 android:textSize="15sp" />
 
-
             <com.dl7.tag.TagLayout
                 android:id="@+id/tl_tag"
                 android:layout_width="match_parent"
@@ -77,15 +78,14 @@
                 app:tag_layout_shape="arc"
                 app:tag_view_border_color="@color/colorClarity"
                 app:tag_view_text_color="@color/colorWhite"
-                app:tag_view_text_size="8sp"></com.dl7.tag.TagLayout>
-
+                app:tag_view_text_size="8sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -105,10 +105,12 @@
                     android:singleLine="true"
                     android:text="这个漫画很好看"
                     android:textColor="@color/colorGray_b"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
+
             </LinearLayout>
 
         </FrameLayout>
+
     </LinearLayout>
 
     <View

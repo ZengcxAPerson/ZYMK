@@ -13,6 +13,7 @@ import top.wzmyyj.zymk.app.bean.BookBean;
 import top.wzmyyj.zymk.app.bean.ChapterBean;
 import top.wzmyyj.zymk.app.bean.ComicBean;
 import top.wzmyyj.zymk.app.bean.HistoryBean;
+import top.wzmyyj.zymk.app.data.Config;
 import top.wzmyyj.zymk.app.data.Urls;
 import top.wzmyyj.zymk.app.event.HistoryListChangeEvent;
 import top.wzmyyj.zymk.app.helper.IntentHelper;
@@ -74,7 +75,7 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
         for (ChapterBean chapter : chapterList) {
             int start = chapter.getStartVar();
             int end = chapter.getEndVar();
-//            chapter.setPrice(0);
+            if (Config.canReadSf) chapter.setPrice(0);
             for (int i = start; i <= end; i++) {
                 ComicBean comic = new ComicBean();
                 comic.setChapterId(chapter.getChapterId());
@@ -110,10 +111,6 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
         historyModel.insert(book, chapter, new BaseObserver<HistoryBean>() {
             @Override
             public void onNext(@NonNull HistoryBean historyBean) {
-                if (historyBean == null) {
-                    mView.showToast("保存失败！");
-                    return;
-                }
                 EventBus.getDefault().post(new HistoryListChangeEvent(true));
             }
 

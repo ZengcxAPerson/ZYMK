@@ -93,7 +93,7 @@ public class ResultRecyclerPanel extends BaseRecyclerPanel<BookBean, ResultContr
     public void setResultData(boolean isFirst, List<BookBean> books, String base, String next) {
         mPresenter.log("base:" + base + "; next:" + next);
         isRunning = false;
-        if (books == null && books.size() == 0) {
+        if (books == null || books.size() == 0) {
             loadFail("No Books");
             return;
         }
@@ -103,17 +103,19 @@ public class ResultRecyclerPanel extends BaseRecyclerPanel<BookBean, ResultContr
         notifyDataSetChanged();
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void setFooter() {
         super.setFooter();
-        mFooter = mInflater.inflate(R.layout.layout_footer2, mRecyclerView);
+        mFooter = mInflater.inflate(R.layout.layout_footer2, null);
         tvEnd = mFooter.findViewById(R.id.tv_end);
         tvEnd.setOnClickListener(v -> loadMore());
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void setEmpty() {
-        mEmpty = mInflater.inflate(R.layout.layout_empty, mEmptyLayout);
+        mEmpty = mInflater.inflate(R.layout.layout_empty, null);
         TextView tv_empty = mEmpty.findViewById(R.id.tv_empty_text);
         mEmpty.setVisibility(View.GONE);
         tv_empty.setText("什么都没有哦。。。");

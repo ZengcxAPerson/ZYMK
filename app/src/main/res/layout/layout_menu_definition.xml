@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_definition"
     android:layout_width="250dp"
     android:layout_height="60dp"
@@ -8,7 +8,8 @@
     android:layout_marginBottom="150dp"
     android:background="@drawable/bg_menu"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:padding="5dp"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp">
 
     <ImageView
         android:id="@+id/img_definition_low"
@@ -33,4 +34,5 @@
         android:layout_weight="1"
         android:padding="15dp"
         android:src="@mipmap/ic_read_definition_high" />
+
 </LinearLayout>

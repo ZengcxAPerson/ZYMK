@@ -67,12 +67,10 @@ public class TypeRecyclerPanel extends BaseRecyclerPanel<TypeBean, TypeContract.
     }
 
     public void setTypeData(List<TypeBean> typeList) {
-        if (typeList == null && typeList.size() == 0) {
-            notifyDataSetChanged();
-            return;
-        }
         mData.clear();
-        mData.addAll(typeList);
+        if (typeList != null && typeList.size() > 0) {
+            mData.addAll(typeList);
+        }
         notifyDataSetChanged();
     }
 

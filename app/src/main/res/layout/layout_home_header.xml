@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorWhite"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp">
 
     <FrameLayout
         android:id="@+id/fl_panel_head"
@@ -18,6 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
@@ -30,6 +33,7 @@
             android:layout_weight="1"
             android:background="@drawable/click_bg"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -41,6 +45,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="最新"
                 android:textColor="@color/colorGray_7"
@@ -56,6 +61,7 @@
             android:layout_weight="1"
             android:background="@drawable/click_bg"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -67,13 +73,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="排行"
                 android:textColor="@color/colorGray_7"
                 android:textSize="15sp" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -93,4 +99,3 @@
         android:background="@color/colorLine" />
 
 </LinearLayout>
-

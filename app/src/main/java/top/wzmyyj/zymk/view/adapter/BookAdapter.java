@@ -40,8 +40,6 @@ public class BookAdapter extends CommonAdapter<BookBean> {
     @Override
     public void onViewRecycled(@NonNull ViewHolder holder) {
         super.onViewRecycled(holder);
-        if (holder != null) {
-            GlideLoaderHelper.clear(mContext, holder.getView(R.id.img_book));
-        }
+        GlideLoaderHelper.clear(mContext, holder.getView(R.id.img_book));
     }
 }

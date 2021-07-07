@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="106dp"
     android:layout_height="180dp"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp">
 
     <FrameLayout
         android:layout_width="96dp"
@@ -19,7 +21,7 @@
             android:id="@+id/tv_new"
             android:layout_width="35dp"
             android:layout_height="15dp"
-            android:layout_gravity="right|top"
+            android:layout_gravity="end|top"
             android:background="@color/colorPrimaryAhp"
             android:gravity="center"
             android:paddingLeft="3dp"
@@ -39,7 +41,7 @@
         android:singleLine="true"
         android:text="标题"
         android:textColor="@color/colorGray_5"
-        android:textSize="13sp"  />
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/tv_some"
@@ -49,6 +51,6 @@
         android:singleLine="true"
         android:text="这个漫画很好看"
         android:textColor="@color/colorGray_b"
-        android:textSize="11dp"/>
+        android:textSize="11sp" />
 
 </LinearLayout>
