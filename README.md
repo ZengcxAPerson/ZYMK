@@ -8,9 +8,16 @@ mvp+rxjava+retrofit+okhttp+greendao+glide+gson+jsoup+eventbus+butterknife
 
 个人页：[http://wzmyyj.top/2018/08/22/android_3/](http://wzmyyj.top/2018/08/22/android_3/)
 
+#### 1.1.0
+1. 漫画图片预加载。
 
+2. GlideLoaderHelper修改。
 
-#### 最新更新
+3. 漫画滑动监听。
+
+4. 优化代码，消除警告。
+
+#### 1.0.3
 1. 由常规MVP改为Google推荐的MVP-Contract模式。将原本的presenter层每个类抽象出接口，并将这些接口和对应的view的接口，放在同一个contract接口里（接口里放两个接口）。
 - 抽象出p层接口使v层依赖于p层接口（父类）。依赖倒转原则。
 - 使用contract好处是p层与v层相互调用关系在一个文件里一目了然。
