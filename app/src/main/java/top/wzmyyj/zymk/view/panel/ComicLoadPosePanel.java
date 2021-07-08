@@ -61,15 +61,16 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
             switch (msg.what) {
                 case 1:
                     imgLoadPose.setImageResource(R.mipmap.pic_load_pose1);
-                    mHandler.sendEmptyMessageDelayed(2, 150);
+                    mHandler.sendEmptyMessageDelayed(2, 100);
                     break;
                 case 2:
                     imgLoadPose.setImageResource(R.mipmap.pic_loadpose2);
-                    mHandler.sendEmptyMessageDelayed(1, 150);
+                    mHandler.sendEmptyMessageDelayed(1, 100);
                     break;
             }
             count++;
-            if (status == 0 && count > 6) {
+            if (status == 0 && count > 18) {
+                mHandler.removeMessages(0);
                 view.setVisibility(View.GONE);
             }
         }
