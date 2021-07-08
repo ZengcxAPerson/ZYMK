@@ -33,5 +33,7 @@ public interface ComicContract {
         void saveHistory(BookBean book, ChapterBean chapter);
 
         List<ComicBean> getComicList(ChapterBean chapter);
+
+        ChapterBean chapterEnd();
     }
 }

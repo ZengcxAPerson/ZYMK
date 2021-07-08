@@ -13,6 +13,8 @@ public class ComicBean {
     private String imgMiddle;
     private String imgHigh;
     private int price;
+    private int imgWidth;
+    private int imgHeight;
 
     public long getChapterId() {
         return chapterId;
@@ -76,5 +78,21 @@ public class ComicBean {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getImgWidth() {
+        return imgWidth;
+    }
+
+    public void setImgWidth(int imgWidth) {
+        this.imgWidth = imgWidth;
+    }
+
+    public int getImgHeight() {
+        return imgHeight;
+    }
+
+    public void setImgHeight(int imgHeight) {
+        this.imgHeight = imgHeight;
     }
 }

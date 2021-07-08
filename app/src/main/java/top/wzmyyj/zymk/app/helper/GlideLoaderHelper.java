@@ -24,10 +24,6 @@ import top.wzmyyj.zymk.R;
  */
 public class GlideLoaderHelper {
 
-    public static void clear(ImageView img) {
-        Glide.with(img).clear(img);
-    }
-
     public static void img(ImageView img, String url) {
         Glide.with(img)
                 .load(url)
@@ -120,4 +116,17 @@ public class GlideLoaderHelper {
                 })
                 .into(img);
     }
+
+    public static void load(Context context, final String url, Target<Bitmap> target) {
+        GlideApp.with(context).asBitmap().load(url).into(target);
+    }
+
+    public static void clear(ImageView img) {
+        Glide.with(img).clear(img);
+    }
+
+    public static <T> void clear(Context context, Target<T> target) {
+        GlideApp.with(context).clear(target);
+    }
+
 }

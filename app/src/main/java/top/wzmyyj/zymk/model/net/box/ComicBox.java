@@ -14,6 +14,7 @@ import java.util.List;
 
 import top.wzmyyj.zymk.app.bean.BookBean;
 import top.wzmyyj.zymk.app.bean.ChapterBean;
+import top.wzmyyj.zymk.app.data.Config;
 
 /**
  * Created by yyj on 2018/08/02. email: 2209011667@qq.com
@@ -62,6 +63,7 @@ public class ComicBox {
                 for (int i = 0; i < chapter_list.size(); i++) {
                     JsonObject obj = chapter_list.get(i).getAsJsonObject();
                     ChapterBean chapter = new Gson().fromJson(obj, ChapterBean.class);
+                    if (Config.canReadSf) chapter.setPrice(0);
                     chapterList.add(chapter);
                 }
             }

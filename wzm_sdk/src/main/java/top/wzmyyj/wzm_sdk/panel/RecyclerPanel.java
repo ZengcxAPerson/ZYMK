@@ -32,7 +32,7 @@ public abstract class RecyclerPanel<T> extends InitPanel implements MultiItemTyp
     protected FrameLayout mFrameLayout;
     protected List<T> mData = new ArrayList<>();
     protected List<IVD<T>> mIVD = new ArrayList<>();
-    protected HeaderAndFooterWrapper<T> mHeaderAndFooterWrapper;
+    protected HeaderAndFooterWrapper<T> mWrapperAdapter;
     protected View mHeader;
     protected View mFooter;
     protected View mEmpty;
@@ -91,12 +91,12 @@ public abstract class RecyclerPanel<T> extends InitPanel implements MultiItemTyp
             mAdapter.addItemViewDelegate(ivd);
         }
         mAdapter.setOnItemClickListener(this);
-        mHeaderAndFooterWrapper = new HeaderAndFooterWrapper<>(mAdapter);
+        mWrapperAdapter = new HeaderAndFooterWrapper<>(mAdapter);
         if (mHeader != null)
-            mHeaderAndFooterWrapper.addHeaderView(mHeader);
+            mWrapperAdapter.addHeaderView(mHeader);
         if (mFooter != null)
-            mHeaderAndFooterWrapper.addFootView(mFooter);
-        mRecyclerView.setAdapter(mHeaderAndFooterWrapper);
+            mWrapperAdapter.addFootView(mFooter);
+        mRecyclerView.setAdapter(mWrapperAdapter);
     }
 
     public void viewRecycled(@NonNull ViewHolder holder) {
@@ -147,7 +147,7 @@ public abstract class RecyclerPanel<T> extends InitPanel implements MultiItemTyp
 
     protected void notifyDataSetChanged() {
         sort();
-        mHeaderAndFooterWrapper.notifyDataSetChanged();
+        mWrapperAdapter.notifyDataSetChanged();
         upHeaderAndFooter();
         upEmpty();
     }

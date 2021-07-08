@@ -50,9 +50,7 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
     @Override
     protected void initData() {
         super.initData();
-        count = 0;
-        status = -1;
-        mHandler.sendEmptyMessage(1);
+        showLoad();
     }
 
     @SuppressLint("HandlerLeak")
@@ -63,31 +61,33 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
             switch (msg.what) {
                 case 1:
                     imgLoadPose.setImageResource(R.mipmap.pic_load_pose1);
-                    mHandler.sendEmptyMessageDelayed(2, 200);
+                    mHandler.sendEmptyMessageDelayed(2, 150);
                     break;
                 case 2:
                     imgLoadPose.setImageResource(R.mipmap.pic_loadpose2);
-                    mHandler.sendEmptyMessageDelayed(1, 200);
-                    break;
-                default:
-                    mHandler.removeMessages(1);
-                    mHandler.removeMessages(2);
+                    mHandler.sendEmptyMessageDelayed(1, 150);
                     break;
             }
             count++;
-            if (status == 0 && count > 7) {
-                mHandler.sendEmptyMessage(0);
+            if (status == 0 && count > 6) {
                 view.setVisibility(View.GONE);
             }
         }
     };
+
+    public void showLoad() {
+        view.setVisibility(View.VISIBLE);
+        count = 0;
+        status = -1;
+        mHandler.sendEmptyMessage(1);
+    }
 
     public void loadSuccess() {
         status = 0;
     }
 
     public void loadFail() {
-        mHandler.sendEmptyMessage(0);
+        mHandler.removeMessages(0);
         tvLoadPose.setText("加载失败，点击重试！");
         tvLoadPose.setTextColor(context.getResources().getColor(R.color.colorRed));
         imgLoadPose.setImageResource(R.mipmap.pic_load_error);
@@ -96,6 +96,6 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mHandler.sendEmptyMessage(0);
+        mHandler.removeMessages(0);
     }
 }

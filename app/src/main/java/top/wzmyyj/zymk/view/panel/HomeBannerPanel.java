@@ -44,14 +44,14 @@ public class HomeBannerPanel extends BaseBannerPanel<HomeContract.IPresenter> {
 
     public void setBannerData(final List<BoBean> bos) {
         if (bos == null || bos.size() == 0) return;
-        List<String> imgs = new ArrayList<>();
-        List<String> strs = new ArrayList<>();
+        List<String> imgList = new ArrayList<>();
+        List<String> strList = new ArrayList<>();
         for (int i = 0; i < bos.size(); i++) {
             BoBean bo = bos.get(i);
-            imgs.add(bo.getDataSrc());
-            strs.add(bo.getTitle());
+            imgList.add(bo.getDataSrc());
+            strList.add(bo.getTitle());
         }
-        mBanner.update(imgs, strs);
+        mBanner.update(imgList, strList);
         mBanner.setOnBannerListener(position -> mPresenter.goDetails(bos.get(position).getHref()));
     }
 }

@@ -112,7 +112,7 @@ public class L {
      */
     public static void json(String msg) {
         if (debug)
-            Log.d(TAG, getPrettyJson(check(msg)));
+            Log.i(TAG, getPrettyJson(check(msg)));
     }
 
     /**

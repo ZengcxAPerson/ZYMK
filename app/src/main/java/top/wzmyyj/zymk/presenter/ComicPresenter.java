@@ -13,7 +13,6 @@ import top.wzmyyj.zymk.app.bean.BookBean;
 import top.wzmyyj.zymk.app.bean.ChapterBean;
 import top.wzmyyj.zymk.app.bean.ComicBean;
 import top.wzmyyj.zymk.app.bean.HistoryBean;
-import top.wzmyyj.zymk.app.data.Config;
 import top.wzmyyj.zymk.app.data.Urls;
 import top.wzmyyj.zymk.app.event.HistoryListChangeEvent;
 import top.wzmyyj.zymk.app.helper.IntentHelper;
@@ -52,7 +51,6 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
                 if (status == 0) {
                     List<ChapterBean> chapterList = box.getChapterList();
                     Collections.reverse(chapterList);// 反序
-                    chapterList.add(chapterEnd());
                     mView.showData(box.getBook(), chapterList, box.getBookList());
                 } else {
                     mView.showLoadFail(box.getMsg());
@@ -75,7 +73,6 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
         List<ComicBean> comicList = new ArrayList<>();
         int start = chapter.getStartVar();
         int end = chapter.getEndVar();
-        if (Config.canReadSf) chapter.setPrice(0);
         for (int i = start; i <= end; i++) {
             ComicBean comic = new ComicBean();
             comic.setChapterId(chapter.getChapterId());
@@ -121,8 +118,9 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
         });
     }
 
-    // 增加最后结束语。
-    private ChapterBean chapterEnd() {
+    @Override
+    public ChapterBean chapterEnd() {
+        // 增加最后结束语。
         ComicBean comic = new ComicBean();
         comic.setChapterId(-1);
         comic.setVar(1);

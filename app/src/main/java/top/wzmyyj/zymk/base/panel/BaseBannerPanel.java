@@ -20,7 +20,6 @@ public abstract class BaseBannerPanel<P extends IBasePresenter> extends BannerPa
         super(context);
         this.mPresenter = p;
         checkPresenterIsNull();
-        this.mPresenter.log(this.getClass().getSimpleName() + "is created!");
     }
 
     private void checkPresenterIsNull() {

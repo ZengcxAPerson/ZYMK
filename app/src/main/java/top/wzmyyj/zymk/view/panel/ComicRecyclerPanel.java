@@ -2,15 +2,20 @@ package top.wzmyyj.zymk.view.panel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
@@ -19,6 +24,7 @@ import java.util.List;
 import top.wzmyyj.wzm_sdk.adapter.ivd.IVD;
 import top.wzmyyj.wzm_sdk.adapter.ivd.SingleIVD;
 import top.wzmyyj.wzm_sdk.tools.T;
+import top.wzmyyj.wzm_sdk.utils.MockUtil;
 import top.wzmyyj.zymk.R;
 import top.wzmyyj.zymk.app.bean.BookBean;
 import top.wzmyyj.zymk.app.bean.ChapterBean;
@@ -45,14 +51,15 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     private ComicLoadPosePanel mLoadPosePanel;
     private int definition = Definition_Middle;
     private long mChapterId = 0;
+    private int indexPrevious = -1;
+    private int indexAfter = -1;
     private boolean isScrollByCatalog = false;
     private BookBean mBook;
     private final List<ChapterBean> mChapterList = new ArrayList<>();
     private final List<BookBean> mBookList = new ArrayList<>();
-    private long chapterIdPrevious;
-    private long chapterIdAfter;
     private final MyRunnable myRunnable = new MyRunnable();
     private final Handler scrollHandler = new Handler();
+    private final List<Target<Bitmap>> targetList = new ArrayList<>();
 
     public ComicRecyclerPanel(Context context, ComicContract.IPresenter comicPresenter) {
         super(context, comicPresenter);
@@ -111,6 +118,29 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         scrollToPosition(c);
     }
 
+    // 前往指定的章节。
+    public void goSeeChapterById(long id) {
+        mChapterId = id;
+        int p = -1;
+        for (int i = 0; i < mData.size(); i++) {// mData中查找指定章节。
+            if (mData.get(i).getChapterId() == id) {
+                p = i;
+                break;
+            }
+        }
+        if (p == -1) {// mData中没有所需章节。
+            mLoadPosePanel.showLoad();
+            addOnce();
+            mRecyclerView.postDelayed(() -> {
+                mLoadPosePanel.loadSuccess();
+            }, 600);
+            return;
+        }
+        // 滑到指定章节。
+        isScrollByCatalog = true;
+        scrollToPosition(p);
+    }
+
     public void goDetails() {
         mPresenter.goDetails(mBook.getHref());
     }
@@ -125,7 +155,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         mFrameLayout.addView(getPanelView(0));
         mFrameLayout.addView(getPanelView(1));
         // 消除mRecyclerView刷新的动画。
-        ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        mRecyclerView.setItemAnimator(null);
     }
 
     @Override
@@ -145,6 +175,16 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             @Override
             public void convert(ViewHolder holder, ComicBean comicBean, int position) {
                 ImageView img_comic = holder.getView(R.id.img_comic);
+                int width = comicBean.getImgWidth();
+                int height = comicBean.getImgHeight();
+                if (width > 0 && height > 0) {
+                    final int screenWidth = MockUtil.getScreenWidth(img_comic.getContext());
+                    float scale = ((float) height) / width;
+                    ViewGroup.LayoutParams params = img_comic.getLayoutParams();
+                    params.width = screenWidth;
+                    params.height = Math.round(scale * screenWidth);
+                    img_comic.setLayoutParams(params);
+                }
                 if (comicBean.getChapterId() == -1) {
                     GlideLoaderHelper.imgFix(img_comic, R.mipmap.pic_comic_end);
                     return;
@@ -197,12 +237,15 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
                 mMenuPanel.setMenu(mData.get(p));
                 long chapterId = mData.get(p).getChapterId();
                 if (mChapterId != chapterId && !isScrollByCatalog) {
+                    mPresenter.log("mChapterId changed：" + mChapterId + "--->" + chapterId);
                     mChapterId = chapterId;
                     mMenuPanel.scrollCatalog();
                 }
                 if (loadPositionNow < 3) {
+                    mPresenter.log("Add_Previous：loadPositionNow= " + loadPositionNow);
                     mHandler.sendEmptyMessage(Add_Previous);
                 } else if (loadPositionNow > mData.size() - 5) {
+                    mPresenter.log("Add_After：loadPositionNow= " + loadPositionNow);
                     mHandler.sendEmptyMessage(Add_After);
                 }
             }
@@ -219,9 +262,6 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
                 addPrevious();
             } else if (w == Add_After) {
                 addAfter();
-            } else {
-                mHandler.removeMessages(Add_Previous);
-                mHandler.removeMessages(Add_After);
             }
         }
     };
@@ -239,9 +279,9 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         if (chapterList != null && chapterList.size() > 0) {
             mChapterList.clear();
             mChapterList.addAll(chapterList);
+            mChapterList.add(mPresenter.chapterEnd());
         }
-        if (bookList != null && bookList.size() > 0) {
-            // 暂时没用。
+        if (bookList != null && bookList.size() > 0) {// 暂时没用。
             mBookList.clear();
             mBookList.addAll(bookList);
             mPresenter.log("mBookList Size:" + mBookList.size());
@@ -250,104 +290,105 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             mChapterId = mChapterList.get(0).getChapterId();
         }
         addOnce();
-        mHandler.sendEmptyMessageDelayed(Add_Previous, 500);
         mMenuPanel.setCatalogChapterList(chapterList);
     }
 
     // 第一次添加数据。
     private void addOnce() {
         long chapter_id = mChapterId;
-        chapterIdPrevious = 0;
-        chapterIdAfter = 0;
-        List<ComicBean> comicList = new ArrayList<>();
-        for (ChapterBean chapter : mChapterList) {
-            if (chapter.getChapterId() == chapter_id) {
-                comicList.addAll(mPresenter.getComicList(chapter));
-            }
-        }
-        mData.clear();
-        mData.addAll(comicList);
-        notifyDataSetChanged();
-        mMenuPanel.setMenu(mData.get(0));
-        // 找上一章和下一章的ID
+        int index = -1, start = -1, end = -1;
         for (int i = 0; i < mChapterList.size(); i++) {
             if (mChapterList.get(i).getChapterId() == chapter_id) {
-                if (i > 0) {
-                    chapterIdPrevious = mChapterList.get(i - 1).getChapterId();
-                }
-                if (i < mChapterList.size() - 1) {
-                    chapterIdAfter = mChapterList.get(i + 1).getChapterId();
-                }
+                index = start = end = i;
                 break;
             }
         }
+        if (index < 0 || index > mChapterList.size()) return;
+        List<ComicBean> comicList = new ArrayList<>();
+        int pos = 0;
+        if (start > 0) {
+            start--;
+            ChapterBean chapterStart = mChapterList.get(start);
+            comicList.addAll(mPresenter.getComicList(chapterStart));
+            pos = comicList.size();
+        }
+        ChapterBean chapter = mChapterList.get(index);
+        comicList.addAll(mPresenter.getComicList(chapter));
+        if (end < mChapterList.size() - 1) {
+            end++;
+            ChapterBean chapterEnd = mChapterList.get(end);
+            comicList.addAll(mPresenter.getComicList(chapterEnd));
+        }
+        for (Target<Bitmap> target : targetList) {
+            GlideLoaderHelper.clear(context, target);
+        }
+        preLoadImageList(comicList, pos);
+        int removedSize = mData.size();
+        mData.clear();
+        mWrapperAdapter.notifyItemRangeRemoved(0, removedSize);
+        mData.addAll(comicList);
+        mWrapperAdapter.notifyItemRangeInserted(0, comicList.size());
+        scrollToPosition(pos);
+        mMenuPanel.setMenu(comicList.get(pos));
+        indexPrevious = indexAfter = -1;
+        if (start > 0) indexPrevious = start - 1;
+        if (end < mChapterList.size() - 1) indexAfter = end + 1;
+        mPresenter.log("indexPrevious= " + indexPrevious + "  indexAfter= " + indexAfter);
     }
 
     // 向前加载一章。
     private void addPrevious() {
-        if (chapterIdPrevious == 0) return;
-        long previous = chapterIdPrevious;
-        chapterIdPrevious = 0;
-        List<ComicBean> comicList = new ArrayList<>();
-        for (ChapterBean chapter : mChapterList) {
-            if (chapter.getChapterId() == previous) {
-                comicList.addAll(mPresenter.getComicList(chapter));
-            }
-        }
+        if (indexPrevious < 0 || indexPrevious >= mChapterList.size()) return;
+        int start = indexPrevious;
+        indexPrevious = -1;
+        ChapterBean chapter = mChapterList.get(start);
+        List<ComicBean> comicList = mPresenter.getComicList(chapter);
+        preLoadImageList(comicList, 0);
         mData.addAll(0, comicList);
-        mHeaderAndFooterWrapper.notifyItemRangeInserted(0, comicList.size());
-        // 找上一章ID
-        for (int i = 0; i < mChapterList.size(); i++) {
-            if (mChapterList.get(i).getChapterId() == previous) {
-                if (i > 0) {
-                    chapterIdPrevious = mChapterList.get(i - 1).getChapterId();
-                }
-                break;
-            }
-        }
+        mWrapperAdapter.notifyItemRangeInserted(0, comicList.size());
+        if (start > 0) indexPrevious = start - 1;
+        mPresenter.log("indexPrevious= " + indexPrevious);
     }
 
     // 向后加载一章。
     private void addAfter() {
-        if (chapterIdAfter == 0) return;
-        long after = chapterIdAfter;
-        chapterIdAfter = 0;
-        List<ComicBean> comicList = new ArrayList<>();
-        for (ChapterBean chapter : mChapterList) {
-            if (chapter.getChapterId() == after) {
-                comicList.addAll(mPresenter.getComicList(chapter));
-            }
-        }
+        if (indexAfter < 0 || indexAfter >= mChapterList.size()) return;
+        int end = indexAfter;
+        indexAfter = -1;
+        ChapterBean chapter = mChapterList.get(end);
+        List<ComicBean> comicList = mPresenter.getComicList(chapter);
+        preLoadImageList(comicList, 0);
         mData.addAll(comicList);
         notifyDataSetChanged();
-        // 找下一章ID
-        for (int i = 0; i < mChapterList.size(); i++) {
-            if (mChapterList.get(i).getChapterId() == after) {
-                if (i < mChapterList.size() - 1) {
-                    chapterIdAfter = mChapterList.get(i + 1).getChapterId();
-                }
-                break;
+        if (end < mChapterList.size() - 1) indexAfter = end + 1;
+        mPresenter.log("indexAfter= " + indexAfter);
+    }
+
+    // 预加载图片。
+    private void preLoadImageList(List<ComicBean> comicList, int index) {
+        for (int i = 0; i < comicList.size(); i++) {
+            int p = index + (i + 1) / 2 * (i % 2 == 0 ? 1 : -1);
+            if (p >= 0 && p < comicList.size()) {
+                ComicBean comic = comicList.get(p);
+                preLoadImage(comic);
+            } else {
+                i++;
             }
         }
     }
 
-    // 前往指定的章节。
-    public void goSeeChapterById(long id) {
-        mChapterId = id;
-        int p = -1;
-        for (int i = 0; i < mData.size(); i++) {// mData中查找指定章节。
-            if (mData.get(i).getChapterId() == id) {
-                p = i;
-                break;
+    private void preLoadImage(ComicBean comic) {
+        if (comic.getChapterId() == -1) return;
+        if (comic.getImgWidth() > 0 && comic.getImgHeight() > 0) return;
+        SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                comic.setImgWidth(resource.getWidth());
+                comic.setImgHeight(resource.getHeight());
             }
-        }
-        if (p == -1) {// mData中没有所需章节。
-            addOnce();
-            return;
-        }
-        // 滑到指定章节。
-        isScrollByCatalog = true;
-        scrollToPosition(p);
+        };
+        targetList.add(target);
+        GlideLoaderHelper.load(context, comic.getImgMiddle(), target);
     }
 
     // mRecyclerView滑到指定position的位置。
@@ -363,7 +404,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         int a = mRecyclerView.getChildAdapterPosition(mRecyclerView.getChildAt(0));
         int b = mRecyclerView.getChildAdapterPosition(mRecyclerView.getChildAt(mRecyclerView.getChildCount() - 1));
         if (a == -1 || b == -1) return;
-        mHeaderAndFooterWrapper.notifyItemRangeChanged(a, b);
+        mWrapperAdapter.notifyItemRangeChanged(a, b);
     }
 
     @Override
@@ -387,7 +428,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mHandler.sendEmptyMessage(0);
+        mHandler.removeMessages(0);
         scrollHandler.removeCallbacks(myRunnable);
     }
 
