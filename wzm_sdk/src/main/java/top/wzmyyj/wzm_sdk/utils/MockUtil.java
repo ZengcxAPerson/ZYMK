@@ -11,11 +11,13 @@ import android.view.WindowManager;
 @SuppressWarnings("unused")
 public class MockUtil {
 
+    @SuppressWarnings("deprecation")
     public static int getScreenWidth(Context context) {
         return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
                 .getDefaultDisplay().getWidth();
     }
 
+    @SuppressWarnings("deprecation")
     public static int getScreenHeight(Context context) {
         return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
                 .getDefaultDisplay().getHeight();

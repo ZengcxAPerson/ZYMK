@@ -51,11 +51,11 @@ public abstract class ViewPagerFragmentActivity extends InitActivity {
         mFTs.add(new FT(fragment, str, icon1, icon2));
     }
 
-    protected abstract void initFTs(List<FT> fts);
+    protected abstract void initFTs();
 
     @Override
     protected void initData() {
-        initFTs(mFTs);
+        initFTs();
         if (mFTs == null || mFTs.size() == 0) {
             return;
         }

@@ -15,7 +15,7 @@ public interface ComicContract {
 
     interface IView extends IBaseView {
 
-        void showData(BookBean book, List<ChapterBean> chapterList, List<BookBean> bookList, List<ComicBean> comicList);
+        void showData(BookBean book, List<ChapterBean> chapterList, List<BookBean> bookList);
 
         void showLoadFail(String msg);
     }
@@ -31,5 +31,7 @@ public interface ComicContract {
         void goDetails(String href);
 
         void saveHistory(BookBean book, ChapterBean chapter);
+
+        List<ComicBean> getComicList(ChapterBean chapter);
     }
 }

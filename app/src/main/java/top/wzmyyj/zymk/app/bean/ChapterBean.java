@@ -2,6 +2,10 @@ package top.wzmyyj.zymk.app.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Transient;
+
+import java.util.List;
+
 import top.wzmyyj.zymk.app.data.Urls;
 
 /**
@@ -21,6 +25,9 @@ public class ChapterBean {
     int price;
     @SerializedName("chapter_image")
     ChapterImage chapterImage;
+
+    @Transient
+    private List<ComicBean> comicList = null;
 
     public static class ChapterImage {
         @SerializedName("low")
@@ -77,5 +84,13 @@ public class ChapterBean {
 
     public String getFirstImageLow() {
         return getFirstImageLow(this.startVar);
+    }
+
+    public List<ComicBean> getComicList() {
+        return comicList;
+    }
+
+    public void setComicList(List<ComicBean> comicList) {
+        this.comicList = comicList;
     }
 }

@@ -100,15 +100,15 @@ public class DetailsXiPanel extends BasePanel<DetailsContract.IPresenter> {
         tvAuthorName.setText(author.getName());
         tvAuthorFansNum.setText(ss);
         tvAuthorSay.setText(author.getContent());
-        GlideLoaderHelper.img(context, author.getAvatar(), imgAuthorHead);
+        GlideLoaderHelper.img(imgAuthorHead, author.getAvatar());
         if (author.getBookList() != null) {
             authorBooks.clear();
             authorBooks.addAll(author.getBookList());
             bookAdapter.notifyDataSetChanged();
             if (author.getFansNum().length() > 3 || author.getBookList().size() > 3) {
-                GlideLoaderHelper.img(context, R.mipmap.svg_author_dk, imgAuthorType);
+                GlideLoaderHelper.img(imgAuthorType, R.mipmap.svg_author_dk);
             } else {
-                GlideLoaderHelper.img(context, R.mipmap.svg_author_xr, imgAuthorType);
+                GlideLoaderHelper.img(imgAuthorType, R.mipmap.svg_author_xr);
             }
         }
     }

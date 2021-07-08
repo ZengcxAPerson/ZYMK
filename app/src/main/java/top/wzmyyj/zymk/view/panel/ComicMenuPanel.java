@@ -318,9 +318,9 @@ public class ComicMenuPanel extends BasePanel<ComicContract.IPresenter> {
                     ll_bg.setBackgroundResource(R.color.colorClarity);
                 }
                 if (chapter.getPrice() == 0) {
-                    GlideLoaderHelper.img(context, chapter.getFirstImageLow(), img_pic);
+                    GlideLoaderHelper.img(img_pic, chapter.getFirstImageLow());
                 } else {
-                    GlideLoaderHelper.img(context, R.mipmap.pic_need_money, img_pic);
+                    GlideLoaderHelper.img(img_pic, R.mipmap.pic_need_money);
                 }
                 tv_name.setText(chapter.getChapterName());
             }

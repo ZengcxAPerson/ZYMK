@@ -80,7 +80,7 @@ public class HomeFavorPanel extends BasePanel<HomeContract.IPresenter> {
                     tv_new.setVisibility(View.GONE);
                 }
                 tv_some.setText(bookBean.getChapter());
-                GlideLoaderHelper.img(context, bookBean.getDataSrc(), img_book);
+                GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
             }
         };
         mRecyclerView.setAdapter(mAdapter);

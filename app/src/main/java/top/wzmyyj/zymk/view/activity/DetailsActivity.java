@@ -217,8 +217,8 @@ public class DetailsActivity extends BaseActivity<DetailsContract.IPresenter> im
                 tlBookTag.addTag(tag);
             }
         }
-        GlideLoaderHelper.img(context, book.getDataSrc(), imgBook);
-        GlideLoaderHelper.imgBlur(context, book.getDataSrc(), imgBookBg, 15);
+        GlideLoaderHelper.img(imgBook, book.getDataSrc());
+        GlideLoaderHelper.imgBlur(imgBookBg, book.getDataSrc(), 15);
         long id = book.getId();
         mPresenter.isFavor(id);
         mPresenter.getHistoryRead(id);

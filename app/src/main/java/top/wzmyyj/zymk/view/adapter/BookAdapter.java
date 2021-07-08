@@ -34,12 +34,12 @@ public class BookAdapter extends CommonAdapter<BookBean> {
         tv_title.setText(bookBean.getTitle());
         tv_chapter.setText(bookBean.getChapter());
         tv_desc.setText(bookBean.getDesc());
-        GlideLoaderHelper.img(mContext, bookBean.getDataSrc(), img_book);
+        GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
     }
 
     @Override
     public void onViewRecycled(@NonNull ViewHolder holder) {
         super.onViewRecycled(holder);
-        GlideLoaderHelper.clear(mContext, holder.getView(R.id.img_book));
+        GlideLoaderHelper.clear(holder.getView(R.id.img_book));
     }
 }

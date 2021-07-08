@@ -44,7 +44,7 @@ public class TypeRecyclerPanel extends BaseRecyclerPanel<TypeBean, TypeContract.
                 TextView tv_type = holder.getView(R.id.tv_type);
                 String ss = "- " + typeBean.getTitle() + " -";
                 tv_type.setText(ss);
-                GlideLoaderHelper.img(context, typeBean.getDataSrc(), img_type);
+                GlideLoaderHelper.img(img_type, typeBean.getDataSrc());
             }
         });
     }

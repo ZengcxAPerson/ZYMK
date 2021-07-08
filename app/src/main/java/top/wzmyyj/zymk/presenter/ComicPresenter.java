@@ -52,8 +52,8 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
                 if (status == 0) {
                     List<ChapterBean> chapterList = box.getChapterList();
                     Collections.reverse(chapterList);// 反序
-                    List<ComicBean> comicList = getComicData(chapterList);
-                    mView.showData(box.getBook(), chapterList, box.getBookList(), comicList);
+                    chapterList.add(chapterEnd());
+                    mView.showData(box.getBook(), chapterList, box.getBookList());
                 } else {
                     mView.showLoadFail(box.getMsg());
                     mView.showToast(box.getMsg());
@@ -69,26 +69,26 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
         });
     }
 
-    private List<ComicBean> getComicData(List<ChapterBean> chapterList) {
+    @Override
+    public List<ComicBean> getComicList(ChapterBean chapter) {
+        if (chapter.getComicList() != null) return chapter.getComicList();
         List<ComicBean> comicList = new ArrayList<>();
-        if (chapterList == null || chapterList.size() == 0) return comicList;
-        for (ChapterBean chapter : chapterList) {
-            int start = chapter.getStartVar();
-            int end = chapter.getEndVar();
-            if (Config.canReadSf) chapter.setPrice(0);
-            for (int i = start; i <= end; i++) {
-                ComicBean comic = new ComicBean();
-                comic.setChapterId(chapter.getChapterId());
-                comic.setChapterName(chapter.getChapterName());
-                comic.setPrice(chapter.getPrice());
-                comic.setImgHigh(chapter.getImageHigh(i));
-                comic.setImgMiddle(chapter.getImageMiddle(i));
-                comic.setImgLow(chapter.getFirstImageLow(i));
-                comic.setVar(i);
-                comic.setVarSize(end - start + 1);
-                comicList.add(comic);
-            }
+        int start = chapter.getStartVar();
+        int end = chapter.getEndVar();
+        if (Config.canReadSf) chapter.setPrice(0);
+        for (int i = start; i <= end; i++) {
+            ComicBean comic = new ComicBean();
+            comic.setChapterId(chapter.getChapterId());
+            comic.setChapterName(chapter.getChapterName());
+            comic.setPrice(chapter.getPrice());
+            comic.setImgHigh(chapter.getImageHigh(i));
+            comic.setImgMiddle(chapter.getImageMiddle(i));
+            comic.setImgLow(chapter.getFirstImageLow(i));
+            comic.setVar(i);
+            comic.setVarSize(end - start + 1);
+            comicList.add(comic);
         }
+        chapter.setComicList(comicList);
         return comicList;
     }
 
@@ -119,5 +119,19 @@ public class ComicPresenter extends BasePresenter<ComicContract.IView> implement
                 mView.showToast("Error:" + e.getMessage());
             }
         });
+    }
+
+    // 增加最后结束语。
+    private ChapterBean chapterEnd() {
+        ComicBean comic = new ComicBean();
+        comic.setChapterId(-1);
+        comic.setVar(1);
+        comic.setVarSize(1);
+        List<ComicBean> comicList = new ArrayList<>();
+        comicList.add(comic);
+        ChapterBean last = new ChapterBean();
+        last.setChapterId(-1);
+        last.setComicList(comicList);
+        return last;
     }
 }

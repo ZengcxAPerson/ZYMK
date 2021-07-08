@@ -84,7 +84,7 @@ public class MoreRecyclerPanel extends BaseRecyclerPanel<BookBean, MoreContract.
                 if (bookBean.getTags() != null) {
                     tl_tag.addTags(bookBean.getTags());
                 }
-                GlideLoaderHelper.img(context, bookBean.getDataSrc(), img_book);
+                GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
             }
         });
     }
@@ -102,7 +102,7 @@ public class MoreRecyclerPanel extends BaseRecyclerPanel<BookBean, MoreContract.
 
     public void setMoreData(String content, String figure, List<BookBean> books) {
         tvHeader.setText(content);
-        GlideLoaderHelper.img(context, figure, imgHeader);
+        GlideLoaderHelper.img(imgHeader, figure);
         mData.clear();
         if (books != null) mData.addAll(books);
         tvEnd.setText(("-- 共推荐" + mData.size() + "个 --"));

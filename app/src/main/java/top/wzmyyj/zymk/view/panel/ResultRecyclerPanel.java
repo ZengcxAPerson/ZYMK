@@ -52,7 +52,7 @@ public class ResultRecyclerPanel extends BaseRecyclerPanel<BookBean, ResultContr
                 tv_star.setText((bookBean.getStar() + "分"));
                 tv_title.setText(bookBean.getTitle());
                 tv_chapter.setText(bookBean.getChapter());
-                GlideLoaderHelper.img(context, bookBean.getDataSrc(), img_book);
+                GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
             }
         });
     }

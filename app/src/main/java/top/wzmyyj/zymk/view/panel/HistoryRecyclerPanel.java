@@ -52,7 +52,7 @@ public class HistoryRecyclerPanel extends FindRecyclerPanel<HistoryBean> {
                 ImageView img_book = holder.getView(R.id.img_book);
                 TextView tv_title = holder.getView(R.id.tv_title);
                 tv_title.setText(bookBean.getTitle());
-                GlideLoaderHelper.img(context, bookBean.getDataSrc(), img_book);
+                GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
                 // 已读章节。
                 ChapterBean chapterBean = historyBean.getChapter();
                 TextView tv_chapter = holder.getView(R.id.tv_chapter);
@@ -100,7 +100,7 @@ public class HistoryRecyclerPanel extends FindRecyclerPanel<HistoryBean> {
                 TextView tv_some = holder.getView(R.id.tv_some);
                 tv_title.setText(bookBean.getTitle());
                 tv_some.setText(TimeUtil.getEasyText(historyBean.getReadTime()));
-                GlideLoaderHelper.img(context, bookBean.getDataSrc(), img_book);
+                GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
                 ImageView img_select = holder.getView(R.id.img_select);
                 RelativeLayout rl_select = holder.getView(R.id.rl_select);
                 if (isCanSelect) {

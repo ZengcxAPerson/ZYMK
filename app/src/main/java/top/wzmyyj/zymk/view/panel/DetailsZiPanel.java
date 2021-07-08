@@ -103,7 +103,7 @@ public class DetailsZiPanel extends BasePanel<DetailsContract.IPresenter> {
                 ImageView img_fans = holder.getView(R.id.img_fins);
                 TextView tv_name = holder.getView(R.id.tv_fans_name);
                 TextView tv_num = holder.getView(R.id.tv_fans_num);
-                GlideLoaderHelper.img(context, fans.getAvatar(), img_fans);
+                GlideLoaderHelper.img(img_fans, fans.getAvatar());
                 tv_name.setText(fans.getName());
                 tv_num.setText(fans.getNum());
             }
@@ -128,15 +128,15 @@ public class DetailsZiPanel extends BasePanel<DetailsContract.IPresenter> {
 
     private void setFans(List<FansBean> fansList) {
         FansBean fans1 = fansList.get(0);
-        GlideLoaderHelper.img(context, fans1.getAvatar(), imgFans1);
+        GlideLoaderHelper.img(imgFans1, fans1.getAvatar());
         tvFansName1.setText(fans1.getName());
         tvFansNum1.setText(fans1.getNum());
         FansBean fans2 = fansList.get(1);
-        GlideLoaderHelper.img(context, fans2.getAvatar(), imgFans2);
+        GlideLoaderHelper.img(imgFans2, fans2.getAvatar());
         tvFansName2.setText(fans2.getName());
         tvFansNum2.setText(fans2.getNum());
         FansBean fans3 = fansList.get(2);
-        GlideLoaderHelper.img(context, fans3.getAvatar(), imgFans3);
+        GlideLoaderHelper.img(imgFans3, fans3.getAvatar());
         tvFansName3.setText(fans3.getName());
         tvFansNum3.setText(fans3.getNum());
         mFansList.clear();

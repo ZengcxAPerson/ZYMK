@@ -60,7 +60,7 @@ public class FavorRecyclerPanel extends FindRecyclerPanel<FavorBean> {
                 } else {
                     tv_new.setVisibility(View.GONE);
                 }
-                GlideLoaderHelper.img(context, bookBean.getDataSrc(), img_book);
+                GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
                 ImageView img_select = holder.getView(R.id.img_select);
                 RelativeLayout rl_select = holder.getView(R.id.rl_select);
                 if (isCanSelect) {
@@ -102,7 +102,7 @@ public class FavorRecyclerPanel extends FindRecyclerPanel<FavorBean> {
                     tv_new.setVisibility(View.GONE);
                 }
                 tv_some.setText(bookBean.getChapter());
-                GlideLoaderHelper.img(context, bookBean.getDataSrc(), img_book);
+                GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
                 ImageView img_select = holder.getView(R.id.img_select);
                 RelativeLayout rl_select = holder.getView(R.id.rl_select);
                 if (isCanSelect) {

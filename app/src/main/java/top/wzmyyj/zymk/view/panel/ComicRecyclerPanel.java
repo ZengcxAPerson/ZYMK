@@ -49,7 +49,6 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     private BookBean mBook;
     private final List<ChapterBean> mChapterList = new ArrayList<>();
     private final List<BookBean> mBookList = new ArrayList<>();
-    private final List<ComicBean> mComicList = new ArrayList<>();
     private long chapterIdPrevious;
     private long chapterIdAfter;
     private final MyRunnable myRunnable = new MyRunnable();
@@ -147,23 +146,23 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             public void convert(ViewHolder holder, ComicBean comicBean, int position) {
                 ImageView img_comic = holder.getView(R.id.img_comic);
                 if (comicBean.getChapterId() == -1) {
-                    GlideLoaderHelper.imgFix(context, R.mipmap.pic_comic_end, img_comic);
+                    GlideLoaderHelper.imgFix(img_comic, R.mipmap.pic_comic_end);
                     return;
                 }
                 if (comicBean.getPrice() == 0) {
                     switch (definition) {
                         case Definition_Low:
-                            GlideLoaderHelper.imgFix(context, comicBean.getImgLow(), img_comic);
+                            GlideLoaderHelper.imgFix(img_comic, comicBean.getImgLow());
                             break;
                         case Definition_Middle:
-                            GlideLoaderHelper.imgFix(context, comicBean.getImgMiddle(), img_comic);
+                            GlideLoaderHelper.imgFix(img_comic, comicBean.getImgMiddle());
                             break;
                         case Definition_High:
-                            GlideLoaderHelper.imgFix(context, comicBean.getImgHigh(), img_comic);
+                            GlideLoaderHelper.imgFix(img_comic, comicBean.getImgHigh());
                             break;
                     }
                 } else {
-                    GlideLoaderHelper.imgFix(context, R.mipmap.pic_need_money, img_comic);
+                    GlideLoaderHelper.imgFix(img_comic, R.mipmap.pic_need_money);
                 }
             }
         });
@@ -171,8 +170,8 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
 
     @Override
     public void viewRecycled(@NonNull ViewHolder holder) {
-        GlideLoaderHelper.clear(context, holder.getView(R.id.img_comic));
         super.viewRecycled(holder);
+        GlideLoaderHelper.clear(holder.getView(R.id.img_comic));
     }
 
     @Override
@@ -232,7 +231,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         mPresenter.loadData();
     }
 
-    public void setComicData(BookBean book, List<ChapterBean> chapterList, List<BookBean> bookList, List<ComicBean> comicList) {
+    public void setComicData(BookBean book, List<ChapterBean> chapterList, List<BookBean> bookList) {
         mLoadPosePanel.loadSuccess();
         if (book != null) {
             mBook = book;
@@ -247,29 +246,12 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             mBookList.addAll(bookList);
             mPresenter.log("mBookList Size:" + mBookList.size());
         }
-        if (comicList != null && comicList.size() > 0) {
-            mComicList.clear();
-            mComicList.addAll(comicList);
-        }
         if (mChapterId == 0) {
             mChapterId = mChapterList.get(0).getChapterId();
         }
-        addEnd();
         addOnce();
         mHandler.sendEmptyMessageDelayed(Add_Previous, 500);
         mMenuPanel.setCatalogChapterList(chapterList);
-    }
-
-    // 增加最后结束语。
-    private void addEnd() {
-        ComicBean comic = new ComicBean();//增加一张结束语。
-        comic.setChapterId(-1);
-        comic.setVar(1);
-        comic.setVarSize(1);
-        mComicList.add(comic);
-        ChapterBean last = new ChapterBean();
-        last.setChapterId(-1);
-        mChapterList.add(last);//增加一章结束语。
     }
 
     // 第一次添加数据。
@@ -278,9 +260,9 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         chapterIdPrevious = 0;
         chapterIdAfter = 0;
         List<ComicBean> comicList = new ArrayList<>();
-        for (ComicBean comic : mComicList) {
-            if (comic.getChapterId() == chapter_id) {
-                comicList.add(comic);
+        for (ChapterBean chapter : mChapterList) {
+            if (chapter.getChapterId() == chapter_id) {
+                comicList.addAll(mPresenter.getComicList(chapter));
             }
         }
         mData.clear();
@@ -307,9 +289,9 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         long previous = chapterIdPrevious;
         chapterIdPrevious = 0;
         List<ComicBean> comicList = new ArrayList<>();
-        for (ComicBean comic : mComicList) {
-            if (comic.getChapterId() == previous) {
-                comicList.add(comic);
+        for (ChapterBean chapter : mChapterList) {
+            if (chapter.getChapterId() == previous) {
+                comicList.addAll(mPresenter.getComicList(chapter));
             }
         }
         mData.addAll(0, comicList);
@@ -331,9 +313,9 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         long after = chapterIdAfter;
         chapterIdAfter = 0;
         List<ComicBean> comicList = new ArrayList<>();
-        for (ComicBean comic : mComicList) {
-            if (comic.getChapterId() == after) {
-                comicList.add(comic);
+        for (ChapterBean chapter : mChapterList) {
+            if (chapter.getChapterId() == after) {
+                comicList.addAll(mPresenter.getComicList(chapter));
             }
         }
         mData.addAll(comicList);

@@ -2,6 +2,7 @@ package top.wzmyyj.zymk.view.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.FrameLayout;
 
 import java.util.List;
@@ -63,8 +64,8 @@ public class ComicActivity extends BaseActivity<ComicContract.IPresenter> implem
     }
 
     @Override
-    public void showData(BookBean book, List<ChapterBean> chapterList, List<BookBean> bookList, List<ComicBean> comicList) {
-        comicRecyclerPanel.setComicData(book, chapterList, bookList, comicList);
+    public void showData(BookBean book, List<ChapterBean> chapterList, List<BookBean> bookList) {
+        comicRecyclerPanel.setComicData(book, chapterList, bookList);
     }
 
     @Override

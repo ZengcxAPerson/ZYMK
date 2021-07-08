@@ -81,7 +81,7 @@ public class RankRecyclerPanel extends BaseRecyclerPanel<BookBean, RankContract.
                         tl_tag.addTag(tag);
                     }
                 }
-                GlideLoaderHelper.img(context, bookBean.getDataSrc(), img_book);
+                GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
             }
         });
     }

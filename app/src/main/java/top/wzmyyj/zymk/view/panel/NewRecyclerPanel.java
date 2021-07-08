@@ -54,7 +54,7 @@ public class NewRecyclerPanel extends BaseRecyclerPanel<BookBean, NewContract.IP
                 tv_title.setText(bookBean.getTitle());
                 tv_chapter.setText(bookBean.getChapter());
                 tv_desc.setText(bookBean.getDesc());
-                GlideLoaderHelper.img(context, bookBean.getDataSrc(), img_book);
+                GlideLoaderHelper.img(img_book, bookBean.getDataSrc());
             }
         });
     }

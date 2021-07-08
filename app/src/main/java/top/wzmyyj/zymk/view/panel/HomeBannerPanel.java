@@ -35,9 +35,9 @@ public class HomeBannerPanel extends BaseBannerPanel<HomeContract.IPresenter> {
     static class BannerImageLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
-            if (path instanceof String) {
+            if (path instanceof String && context != null) {
                 String url = (String) path;
-                GlideLoaderHelper.img(context, url, imageView, R.mipmap.ico_bg);
+                GlideLoaderHelper.img(imageView, url, R.mipmap.ico_bg);
             }
         }
     }
