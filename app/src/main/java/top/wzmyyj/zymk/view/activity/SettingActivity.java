@@ -70,6 +70,11 @@ public class SettingActivity extends BaseActivity<SettingContract.IPresenter> im
         mPresenter.goFeedback();
     }
 
+    @OnClick(R.id.tv_title)
+    public void setting() {
+        mPresenter.setting();
+    }
+
     @Override
     protected void initData() {
         super.initData();

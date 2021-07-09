@@ -36,5 +36,7 @@ public interface SettingContract {
         void getCacheSize();
 
         void clearCache();
+
+        void setting();
     }
 }

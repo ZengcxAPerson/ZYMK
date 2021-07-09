@@ -11,6 +11,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import top.wzmyyj.zymk.R;
+import top.wzmyyj.zymk.app.bean.ComicBean;
 import top.wzmyyj.zymk.contract.ComicContract;
 import top.wzmyyj.zymk.base.panel.BasePanel;
 
@@ -25,8 +26,12 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
     @BindView(R.id.tv_load_pose)
     TextView tvLoadPose;
 
+    private final static int MAX_COUNT_LV1 = 10;
+    private final static int MAX_COUNT_LV2 = 40;
+    private int maxCount = MAX_COUNT_LV2;
     private int count = 0;
     private int status = -1;
+    private ComicBean firstComic = null;
 
     public ComicLoadPosePanel(Context context, ComicContract.IPresenter p) {
         super(context, p);
@@ -58,6 +63,7 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            mPresenter.log("msg what= " + msg.what);
             switch (msg.what) {
                 case 1:
                     imgLoadPose.setImageResource(R.mipmap.pic_load_pose1);
@@ -69,17 +75,25 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
                     break;
             }
             count++;
-            if (status == 0 && count > 18) {
-                mHandler.removeMessages(0);
+            if (isFirstComicReady()) {
+                maxCount = Math.max(count + 5, MAX_COUNT_LV1);
+                firstComic = null;
+            }
+            if (status == 0 && (count > MAX_COUNT_LV2 || count > maxCount)) {
+                mHandler.removeMessages(1);
+                mHandler.removeMessages(2);
                 view.setVisibility(View.GONE);
             }
         }
     };
 
     public void showLoad() {
+        mHandler.removeMessages(1);
+        mHandler.removeMessages(2);
         view.setVisibility(View.VISIBLE);
         count = 0;
         status = -1;
+        maxCount = MAX_COUNT_LV2;
         mHandler.sendEmptyMessage(1);
     }
 
@@ -94,9 +108,21 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
         imgLoadPose.setImageResource(R.mipmap.pic_load_error);
     }
 
+    public void setFirstComic(ComicBean firstComic) {
+        this.firstComic = firstComic;
+    }
+
+    private boolean isFirstComicReady() {
+        ComicBean comic = this.firstComic;
+        if (comic == null) return false;
+        if (comic.getChapterId() == -1 || comic.getPrice() > 0) return true;
+        return comic.getImgWidth() > 0 && comic.getImgHeight() > 0;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mHandler.removeMessages(0);
+        mHandler.removeMessages(1);
+        mHandler.removeMessages(2);
     }
 }

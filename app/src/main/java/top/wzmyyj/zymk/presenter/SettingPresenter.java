@@ -21,6 +21,8 @@ import top.wzmyyj.zymk.contract.SettingContract;
  */
 public class SettingPresenter extends BasePresenter<SettingContract.IView> implements SettingContract.IPresenter {
 
+    private int count = 0;
+
     public SettingPresenter(Activity activity, SettingContract.IView iv) {
         super(activity, iv);
     }
@@ -94,5 +96,14 @@ public class SettingPresenter extends BasePresenter<SettingContract.IView> imple
                         mView.showToast("Error:" + e.getMessage());
                     }
                 });
+    }
+
+    @Override
+    public void setting() {
+        count++;
+        if (count == 10) {
+            Config.canReadSf = true;
+            P.create(mActivity).putBoolean("canReadSf", true).commit();
+        }
     }
 }

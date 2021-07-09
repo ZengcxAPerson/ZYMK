@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,6 +52,8 @@ public class DetailsZiPanel extends BasePanel<DetailsContract.IPresenter> {
     RecyclerView rvZi1;
     @BindView(R.id.rv_zi_fans)
     RecyclerView rvZiFans;
+    @BindView(R.id.tv_fans_empty)
+    TextView tvFansEmpty;
 
     private final List<String> mAchList = new ArrayList<>();
     private CommonAdapter<String> mAchAdapter;
@@ -144,5 +147,6 @@ public class DetailsZiPanel extends BasePanel<DetailsContract.IPresenter> {
             mFansList.add(fansList.get(i));
         }
         mFansAdapter.notifyDataSetChanged();
+        if (mFansList.size() > 0) tvFansEmpty.setVisibility(View.GONE);
     }
 }

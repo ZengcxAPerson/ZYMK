@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import top.wzmyyj.zymk.app.bean.FavorBean;
+import top.wzmyyj.zymk.app.data.Config;
 import top.wzmyyj.zymk.app.data.Urls;
 import top.wzmyyj.zymk.app.helper.IntentHelper;
 import top.wzmyyj.wzm_sdk.tools.P;
@@ -155,5 +156,11 @@ public class HomePresenter extends BasePresenter<HomeContract.IView> implements 
     @Override
     public void goSearch() {
         IntentHelper.toSearchActivity(mActivity);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Config.canReadSf = P.create(mActivity).getBoolean("canReadSf", false);
     }
 }

@@ -131,9 +131,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         if (p == -1) {// mData中没有所需章节。
             mLoadPosePanel.showLoad();
             addOnce();
-            mRecyclerView.postDelayed(() -> {
-                mLoadPosePanel.loadSuccess();
-            }, 600);
+            mRecyclerView.post(() -> mLoadPosePanel.loadSuccess());
             return;
         }
         // 滑到指定章节。
@@ -190,17 +188,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
                     return;
                 }
                 if (comicBean.getPrice() == 0) {
-                    switch (definition) {
-                        case Definition_Low:
-                            GlideLoaderHelper.imgFix(img_comic, comicBean.getImgLow());
-                            break;
-                        case Definition_Middle:
-                            GlideLoaderHelper.imgFix(img_comic, comicBean.getImgMiddle());
-                            break;
-                        case Definition_High:
-                            GlideLoaderHelper.imgFix(img_comic, comicBean.getImgHigh());
-                            break;
-                    }
+                    GlideLoaderHelper.imgFix(img_comic, getComicImage(comicBean));
                 } else {
                     GlideLoaderHelper.imgFix(img_comic, R.mipmap.pic_need_money);
                 }
@@ -241,12 +229,20 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
                     mChapterId = chapterId;
                     mMenuPanel.scrollCatalog();
                 }
-                if (loadPositionNow < 3) {
-                    mPresenter.log("Add_Previous：loadPositionNow= " + loadPositionNow);
-                    mHandler.sendEmptyMessage(Add_Previous);
-                } else if (loadPositionNow > mData.size() - 5) {
-                    mPresenter.log("Add_After：loadPositionNow= " + loadPositionNow);
-                    mHandler.sendEmptyMessage(Add_After);
+                if (isScrollByCatalog) {
+                    if (mData.get(0).getChapterId() == mChapterId) {
+                        mHandler.sendEmptyMessage(Add_Previous);
+                    }
+                    if (mData.get(mData.size() - 1).getChapterId() == mChapterId) {
+                        mHandler.sendEmptyMessage(Add_After);
+                    }
+                    isScrollByCatalog = false;
+                } else {
+                    if (loadPositionNow < 3) {
+                        mHandler.sendEmptyMessage(Add_Previous);
+                    } else if (loadPositionNow > mData.size() - 5) {
+                        mHandler.sendEmptyMessage(Add_After);
+                    }
                 }
             }
         });
@@ -295,6 +291,8 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
 
     // 第一次添加数据。
     private void addOnce() {
+        mHandler.removeMessages(Add_Previous);
+        mHandler.removeMessages(Add_After);
         long chapter_id = mChapterId;
         int index = -1, start = -1, end = -1;
         for (int i = 0; i < mChapterList.size(); i++) {
@@ -319,6 +317,8 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             ChapterBean chapterEnd = mChapterList.get(end);
             comicList.addAll(mPresenter.getComicList(chapterEnd));
         }
+        if (pos >= comicList.size()) return;
+        mLoadPosePanel.setFirstComic(comicList.get(pos));
         for (Target<Bitmap> target : targetList) {
             GlideLoaderHelper.clear(context, target);
         }
@@ -378,7 +378,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     }
 
     private void preLoadImage(ComicBean comic) {
-        if (comic.getChapterId() == -1) return;
+        if (comic.getChapterId() == -1 || comic.getPrice() > 0) return;
         if (comic.getImgWidth() > 0 && comic.getImgHeight() > 0) return;
         SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
             @Override
@@ -388,7 +388,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             }
         };
         targetList.add(target);
-        GlideLoaderHelper.load(context, comic.getImgMiddle(), target);
+        GlideLoaderHelper.load(context, getComicImage(comic), target);
     }
 
     // mRecyclerView滑到指定position的位置。
@@ -396,7 +396,6 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         if (p < 0 || p > mData.size() - 1) return;// 防止越界。
         LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
         mLayoutManager.scrollToPositionWithOffset(p, 0);
-        isScrollByCatalog = false;
     }
 
     private void notifyItemShowRangeChanged() {
@@ -405,6 +404,18 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
         int b = mRecyclerView.getChildAdapterPosition(mRecyclerView.getChildAt(mRecyclerView.getChildCount() - 1));
         if (a == -1 || b == -1) return;
         mWrapperAdapter.notifyItemRangeChanged(a, b);
+    }
+
+    private String getComicImage(ComicBean comicBean) {
+        switch (definition) {
+            case Definition_Low:
+                return comicBean.getImgLow();
+            case Definition_Middle:
+                return comicBean.getImgMiddle();
+            case Definition_High:
+                return comicBean.getImgHigh();
+        }
+        return "";
     }
 
     @Override
@@ -428,7 +439,8 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mHandler.removeMessages(0);
+        mHandler.removeMessages(Add_Previous);
+        mHandler.removeMessages(Add_After);
         scrollHandler.removeCallbacks(myRunnable);
     }
 
