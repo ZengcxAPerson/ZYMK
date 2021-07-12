@@ -2,10 +2,12 @@ package top.wzmyyj.zymk.view.panel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.dl7.tag.TagLayout;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -14,13 +16,13 @@ import java.util.List;
 
 import top.wzmyyj.wzm_sdk.adapter.ivd.IVD;
 import top.wzmyyj.wzm_sdk.adapter.ivd.SingleIVD;
+import top.wzmyyj.wzm_sdk.utils.DensityUtil;
+import top.wzmyyj.wzm_sdk.utils.StatusBarUtil;
 import top.wzmyyj.zymk.R;
 import top.wzmyyj.zymk.app.bean.BookBean;
 import top.wzmyyj.zymk.app.helper.GlideLoaderHelper;
-import top.wzmyyj.wzm_sdk.utils.DensityUtil;
-import top.wzmyyj.wzm_sdk.utils.StatusBarUtil;
-import top.wzmyyj.zymk.contract.MoreContract;
 import top.wzmyyj.zymk.base.panel.BaseRecyclerPanel;
+import top.wzmyyj.zymk.contract.MoreContract;
 
 /**
  * Created by yyj on 2018/07/04. email: 2209011667@qq.com
@@ -47,11 +49,11 @@ public class MoreRecyclerPanel extends BaseRecyclerPanel<BookBean, MoreContract.
         super.initEvent();
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             //当距离在[0,maxDistance]变化时，透明度在[0,255之间变化]
-            final int maxDistance = DensityUtil.dp2px(context, 135) - StatusBarUtil.StatusBarHeight;
+            final int maxDistance = DensityUtil.pt2px(context, 135) - StatusBarUtil.StatusBarHeight;
             int mDistance = 0;
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 mDistance += dy;
                 float percent = mDistance * 1f / maxDistance;//百分比
@@ -113,7 +115,7 @@ public class MoreRecyclerPanel extends BaseRecyclerPanel<BookBean, MoreContract.
     @Override
     protected void setHeader() {
         super.setHeader();
-        mHeader = mInflater.inflate(R.layout.activity_more_header, null);
+        mHeader = mInflater.inflate(R.layout.layout_more_header, null);
         imgHeader = mHeader.findViewById(R.id.img_1);
         tvHeader = mHeader.findViewById(R.id.tv_1);
     }

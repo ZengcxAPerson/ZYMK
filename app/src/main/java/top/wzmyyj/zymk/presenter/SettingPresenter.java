@@ -1,7 +1,7 @@
 package top.wzmyyj.zymk.presenter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;

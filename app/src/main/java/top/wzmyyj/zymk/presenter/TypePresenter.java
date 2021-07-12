@@ -1,7 +1,7 @@
 package top.wzmyyj.zymk.presenter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import top.wzmyyj.zymk.app.helper.IntentHelper;
 import top.wzmyyj.zymk.base.presenter.BasePresenter;

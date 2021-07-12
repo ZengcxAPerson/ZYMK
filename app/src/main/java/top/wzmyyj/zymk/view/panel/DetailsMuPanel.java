@@ -2,18 +2,20 @@ package top.wzmyyj.zymk.view.panel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.design.widget.TabLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.tabs.TabLayout;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -172,7 +174,7 @@ public class DetailsMuPanel extends BasePanel<DetailsContract.IPresenter> {
 
     private void setData(int p) {
         if (p < 1 || p > pagerSize) return;
-        tlMuPager.getTabAt(p - 1).select();
+        Objects.requireNonNull(tlMuPager.getTabAt(p - 1)).select();
         if (p == 1) {
             tvLeft.setTextColor(context.getResources().getColor(R.color.colorGray_b));
         } else {

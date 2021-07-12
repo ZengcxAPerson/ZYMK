@@ -4,7 +4,6 @@ import top.wzmyyj.wzm_sdk.tools.L;
 import top.wzmyyj.zymk.BuildConfig;
 import top.wzmyyj.zymk.app.data.Config;
 import top.wzmyyj.zymk.base.application.BaseApplication;
-import top.wzmyyj.wzm_sdk.utils.StatusBarUtil;
 import top.wzmyyj.zymk.model.db.utils.DaoManager;
 
 /**
@@ -16,7 +15,6 @@ public class App extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        StatusBarUtil.initStatusBarHeight(this);
         DaoManager.getInstance(this.getApplicationContext());
         L.init(Config.TAG, BuildConfig.DEBUG);
     }

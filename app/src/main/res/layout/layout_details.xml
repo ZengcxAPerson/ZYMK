@@ -6,7 +6,7 @@
     android:background="@color/colorWhite"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:ignore="HardcodedText,ContentDescription,SmallSp">
+    tools:ignore="HardcodedText,ContentDescription">
 
     <include layout="@layout/layout_details_bg" />
 

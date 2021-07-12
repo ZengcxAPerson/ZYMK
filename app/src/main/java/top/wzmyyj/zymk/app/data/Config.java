@@ -9,5 +9,7 @@ public class Config {
 
     public final static String TAG = "WZM";
 
+    public final static int BASE_WIDTH = 420;
+
     public static boolean canReadSf = false;
 }

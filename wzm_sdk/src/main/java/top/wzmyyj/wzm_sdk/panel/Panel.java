@@ -3,10 +3,10 @@ package top.wzmyyj.wzm_sdk.panel;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -96,10 +96,6 @@ public class Panel {
 
     public void onStop() {
         mPanelManager.onStop();
-    }
-
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mPanelManager.onActivityCreated(savedInstanceState);
     }
 
     public void onDestroyView() {

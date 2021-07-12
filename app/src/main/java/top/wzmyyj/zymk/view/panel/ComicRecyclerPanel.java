@@ -4,18 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.request.target.SimpleTarget;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
@@ -30,10 +30,13 @@ import top.wzmyyj.zymk.app.bean.BookBean;
 import top.wzmyyj.zymk.app.bean.ChapterBean;
 import top.wzmyyj.zymk.app.bean.ComicBean;
 import top.wzmyyj.zymk.app.helper.GlideLoaderHelper;
+import top.wzmyyj.zymk.app.helper.target.FixResTarget;
+import top.wzmyyj.zymk.app.helper.target.LoadComicTarget;
+import top.wzmyyj.zymk.app.helper.target.PreLoadComicTarget;
 import top.wzmyyj.zymk.base.panel.BaseRecyclerPanel;
 import top.wzmyyj.zymk.contract.ComicContract;
 
-import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING;
 
 /**
  * Created by yyj on 2018/08/06. email: 2209011667@qq.com
@@ -58,7 +61,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     private final List<ChapterBean> mChapterList = new ArrayList<>();
     private final List<BookBean> mBookList = new ArrayList<>();
     private final MyRunnable myRunnable = new MyRunnable();
-    private final Handler scrollHandler = new Handler();
+    private final Handler scrollHandler = new Handler(Looper.getMainLooper());
     private final List<Target<Bitmap>> targetList = new ArrayList<>();
 
     public ComicRecyclerPanel(Context context, ComicContract.IPresenter comicPresenter) {
@@ -172,26 +175,28 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
 
             @Override
             public void convert(ViewHolder holder, ComicBean comicBean, int position) {
-                ImageView img_comic = holder.getView(R.id.img_comic);
+                ImageView img = holder.getView(R.id.img_comic);
+                if (comicBean.getChapterId() == -1) {
+                    GlideLoaderHelper.load(img, R.mipmap.pic_comic_end, new FixResTarget(img));
+                    return;
+                }
+                if (comicBean.getPrice() > 0) {
+                    GlideLoaderHelper.load(img, R.mipmap.pic_need_money, new FixResTarget(img));
+                    return;
+                }
                 int width = comicBean.getImgWidth();
                 int height = comicBean.getImgHeight();
                 if (width > 0 && height > 0) {
-                    final int screenWidth = MockUtil.getScreenWidth(img_comic.getContext());
+                    final int screenWidth = MockUtil.getScreenWidth(img.getContext());
+                    mPresenter.log("screenWidth = " + screenWidth);
+                    mPresenter.log("screenWidth = " + screenWidth);
                     float scale = ((float) height) / width;
-                    ViewGroup.LayoutParams params = img_comic.getLayoutParams();
+                    ViewGroup.LayoutParams params = img.getLayoutParams();
                     params.width = screenWidth;
                     params.height = Math.round(scale * screenWidth);
-                    img_comic.setLayoutParams(params);
+                    img.setLayoutParams(params);
                 }
-                if (comicBean.getChapterId() == -1) {
-                    GlideLoaderHelper.imgFix(img_comic, R.mipmap.pic_comic_end);
-                    return;
-                }
-                if (comicBean.getPrice() == 0) {
-                    GlideLoaderHelper.imgFix(img_comic, getComicImage(comicBean));
-                } else {
-                    GlideLoaderHelper.imgFix(img_comic, R.mipmap.pic_need_money);
-                }
+                new LoadComicTarget(comicBean, img, getComicImage(comicBean)).load();
             }
         });
     }
@@ -210,7 +215,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
             private int loadPositionNow = 0;
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!mMenuPanel.isAuto() && recyclerView.getScrollState() != SCROLL_STATE_SETTLING) {
                     if (dy > 10) {
@@ -238,6 +243,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
                     }
                     isScrollByCatalog = false;
                 } else {
+                    preLoadImageList(mData, loadPositionNow);
                     if (loadPositionNow < 3) {
                         mHandler.sendEmptyMessage(Add_Previous);
                     } else if (loadPositionNow > mData.size() - 5) {
@@ -249,7 +255,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     }
 
     @SuppressLint("HandlerLeak")
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -366,7 +372,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
 
     // 预加载图片。
     private void preLoadImageList(List<ComicBean> comicList, int index) {
-        for (int i = 0; i < comicList.size(); i++) {
+        for (int i = 0; i < 7; i++) {
             int p = index + (i + 1) / 2 * (i % 2 == 0 ? 1 : -1);
             if (p >= 0 && p < comicList.size()) {
                 ComicBean comic = comicList.get(p);
@@ -380,13 +386,8 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     private void preLoadImage(ComicBean comic) {
         if (comic.getChapterId() == -1 || comic.getPrice() > 0) return;
         if (comic.getImgWidth() > 0 && comic.getImgHeight() > 0) return;
-        SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                comic.setImgWidth(resource.getWidth());
-                comic.setImgHeight(resource.getHeight());
-            }
-        };
+        if (comic.isLoading() || comic.isPreLoading()) return;
+        CustomTarget<Bitmap> target = new PreLoadComicTarget(comic);
         targetList.add(target);
         GlideLoaderHelper.load(context, getComicImage(comic), target);
     }
@@ -395,7 +396,7 @@ public class ComicRecyclerPanel extends BaseRecyclerPanel<ComicBean, ComicContra
     private void scrollToPosition(int p) {
         if (p < 0 || p > mData.size() - 1) return;// 防止越界。
         LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-        mLayoutManager.scrollToPositionWithOffset(p, 0);
+        if (mLayoutManager != null) mLayoutManager.scrollToPositionWithOffset(p, 0);
     }
 
     private void notifyItemShowRangeChanged() {

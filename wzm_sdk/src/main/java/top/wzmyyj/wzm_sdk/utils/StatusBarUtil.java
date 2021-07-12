@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by yyj on 2018/06/29. email: 2209011667@qq.com
@@ -18,15 +19,15 @@ public class StatusBarUtil {
     /**
      * 状态栏设置
      */
-    public static void initStatusBar(Activity context, boolean isTint) {
+    public static void initStatusBar(@NonNull Activity context, boolean isTint) {
         initStatusBar(context, isTint, false, false);
     }
 
-    public static void initStatusBar(Activity context, boolean isTint, boolean isDark) {
+    public static void initStatusBar(@NonNull Activity context, boolean isTint, boolean isDark) {
         initStatusBar(context, isTint, isDark, false);
     }
 
-    public static void initStatusBar(Activity context, boolean isTint, boolean isDark, boolean isTransparent) {
+    public static void initStatusBar(@NonNull Activity context, boolean isTint, boolean isDark, boolean isTransparent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return;
         }
@@ -58,7 +59,7 @@ public class StatusBarUtil {
         }
     }
 
-    public static void initStatusBarHeight(Context context) {
+    public static void initStatusBarHeight(@NonNull Context context) {
         StatusBarHeight = getStatusBarHeight(context);
     }
 
@@ -69,7 +70,7 @@ public class StatusBarUtil {
      *
      * @return 高度（px）
      */
-    public static int getStatusBarHeight(Context context) {
+    public static int getStatusBarHeight(@NonNull Context context) {
         int result = 0;
         int resultId = context.getResources().getIdentifier("status_bar_height",
                 "dimen", "android");
@@ -86,11 +87,11 @@ public class StatusBarUtil {
         }
     }
 
-    public static void fullScreen(Activity context) {
+    public static void fullScreen(@NonNull Activity context) {
         context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //隐藏状态栏
     }
 
-    public static void notfullScreen(Activity context) {
+    public static void notFullScreen(@NonNull Activity context) {
         context.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//显示状态栏
     }
 }

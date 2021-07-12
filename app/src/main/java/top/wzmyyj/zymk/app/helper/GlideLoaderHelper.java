@@ -2,20 +2,14 @@ package top.wzmyyj.zymk.app.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import top.wzmyyj.wzm_sdk.utils.MockUtil;
 import top.wzmyyj.zymk.R;
 
 /**
@@ -23,6 +17,8 @@ import top.wzmyyj.zymk.R;
  * Glide 图片加载器的封装类。
  */
 public class GlideLoaderHelper {
+
+    private final static RequestOptions ORIGINAL_OPTIONS = new RequestOptions().override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
 
     public static void img(ImageView img, String url) {
         Glide.with(img)
@@ -56,69 +52,16 @@ public class GlideLoaderHelper {
                 .into(img);
     }
 
-    public static void imgFix(final ImageView img, final String url) {
-        final int screenWidth = MockUtil.getScreenWidth(img.getContext());
-        GlideApp.with(img)
-                .asBitmap()//强制Glide返回一个Bitmap对象
-                .load(url)
-                .placeholder(R.mipmap.pic_no)
-                .listener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        float scale = 1.0f;
-                        ViewGroup.LayoutParams params = img.getLayoutParams();
-                        params.width = screenWidth;
-                        params.height = Math.round(scale * screenWidth);
-                        img.requestLayout();
-                        img.setImageResource(R.mipmap.pic_fail);
-                        img.setOnClickListener(v -> GlideLoaderHelper.imgFix(img, url));
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        img.setClickable(false);
-                        int width = resource.getWidth();
-                        int height = resource.getHeight();
-                        float scale = ((float) height) / width;
-                        ViewGroup.LayoutParams params = img.getLayoutParams();
-                        params.width = screenWidth;
-                        params.height = Math.round(scale * screenWidth);
-                        img.setLayoutParams(params);
-                        return false;
-                    }
-                })
-                .into(img);
-    }
-
-    public static void imgFix(final ImageView img, final int res_id) {
-        final int screenWidth = MockUtil.getScreenWidth(img.getContext());
-        GlideApp.with(img)
-                .asBitmap()//强制Glide返回一个Bitmap对象
-                .load(res_id)
-                .listener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        int width = resource.getWidth();
-                        int height = resource.getHeight();
-                        float scale = ((float) height) / width;
-                        ViewGroup.LayoutParams params = img.getLayoutParams();
-                        params.width = screenWidth;
-                        params.height = Math.round(scale * screenWidth);
-                        img.setLayoutParams(params);
-                        return false;
-                    }
-                })
-                .into(img);
+    public static void load(ImageView view, final String url, Target<Bitmap> target) {
+        Glide.with(view).asBitmap().load(url).apply(ORIGINAL_OPTIONS).into(target);
     }
 
     public static void load(Context context, final String url, Target<Bitmap> target) {
-        GlideApp.with(context).asBitmap().load(url).into(target);
+        Glide.with(context).asBitmap().load(url).apply(ORIGINAL_OPTIONS).into(target);
+    }
+
+    public static void load(ImageView view, final int res, Target<Bitmap> target) {
+        Glide.with(view).asBitmap().load(res).apply(ORIGINAL_OPTIONS).into(target);
     }
 
     public static void clear(ImageView img) {
@@ -126,7 +69,7 @@ public class GlideLoaderHelper {
     }
 
     public static <T> void clear(Context context, Target<T> target) {
-        GlideApp.with(context).clear(target);
+        Glide.with(context).clear(target);
     }
 
 }

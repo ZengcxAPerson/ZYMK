@@ -2,14 +2,15 @@ package top.wzmyyj.zymk.view.panel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public abstract class FindRecyclerPanel<T> extends BaseRecyclerPanel<T, FindCont
         super.initView();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mRefreshLayout.getLayoutParams();
-        params.topMargin = DensityUtil.dp2px(context, 35);
+        params.topMargin = DensityUtil.pt2px(context, 35);
         setMenu();
         mFrameLayout.addView(mMenu);
     }

@@ -2,9 +2,6 @@ package top.wzmyyj.zymk.view.panel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +10,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.xw.repo.BubbleSeekBar;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -358,7 +359,7 @@ public class ComicMenuPanel extends BasePanel<ComicContract.IPresenter> {
             @Override
             public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar,
                                               int progress, float progressFloat) {
-                myRunnable.c = DensityUtil.dp2px(context, (float) 2 * progressFloat);
+                myRunnable.c = DensityUtil.pt2px(context, (float) 2 * progressFloat);
             }
         });
         bsbBrightness.setOnProgressChangedListener(new BubbleSeekBarChangedListener() {
@@ -391,7 +392,7 @@ public class ComicMenuPanel extends BasePanel<ComicContract.IPresenter> {
         imgAuto.setImageResource(R.mipmap.ic_read_stop);
         myRunnable.a = 0;
         myRunnable.b = Integer.MAX_VALUE;
-        myRunnable.c = DensityUtil.dp2px(context, bsbAuto.getProgressFloat() * 2);
+        myRunnable.c = DensityUtil.pt2px(context, bsbAuto.getProgressFloat() * 2);
         comicRecyclerPanel.postAutoScroll();
     }
 
@@ -418,6 +419,7 @@ public class ComicMenuPanel extends BasePanel<ComicContract.IPresenter> {
         int p = Math.max(j - 3, 0);
         if (p > mCatalogChapterList.size() - 1) return;// 防止越界。
         LinearLayoutManager mLayoutManager = (LinearLayoutManager) rvCatalog.getLayoutManager();
+        if (mLayoutManager == null) return;
         if (isOpen) {
             mLayoutManager.scrollToPositionWithOffset(p, 0);
         } else {

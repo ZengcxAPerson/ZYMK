@@ -2,11 +2,12 @@ package top.wzmyyj.zymk.view.panel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.widget.NestedScrollView;
 
 import java.util.List;
 
@@ -95,7 +96,7 @@ public class HomeNestedScrollPanel extends BaseNestedScrollPanel<HomeContract.IP
                     if (viewList.size() == 0) return;
                     View top = viewList.get(0);
                     //当距离在[0,maxDistance]变化时，透明度在[0,255之间变化]
-                    int maxDistance = DensityUtil.dp2px(context, 155) - StatusBarUtil.StatusBarHeight;
+                    int maxDistance = DensityUtil.pt2px(context, 155) - StatusBarUtil.StatusBarHeight;
                     float percent = scrollY * 1f / maxDistance;//百分比
                     top.setAlpha(percent);
                 });

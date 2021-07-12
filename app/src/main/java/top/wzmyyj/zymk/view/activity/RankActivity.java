@@ -1,10 +1,12 @@
 package top.wzmyyj.zymk.view.activity;
 
 import android.annotation.SuppressLint;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;

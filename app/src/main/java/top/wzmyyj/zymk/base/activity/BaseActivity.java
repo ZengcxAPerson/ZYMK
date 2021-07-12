@@ -5,7 +5,9 @@ import android.os.Bundle;
 import butterknife.ButterKnife;
 import top.wzmyyj.wzm_sdk.activity.PanelActivity;
 import top.wzmyyj.wzm_sdk.tools.T;
+import top.wzmyyj.wzm_sdk.utils.AdaptScreenUtil;
 import top.wzmyyj.wzm_sdk.utils.StatusBarUtil;
+import top.wzmyyj.zymk.app.data.Config;
 import top.wzmyyj.zymk.base.contract.IBasePresenter;
 import top.wzmyyj.zymk.base.contract.IBaseView;
 
@@ -22,6 +24,7 @@ public abstract class BaseActivity<P extends IBasePresenter> extends PanelActivi
         checkPresenterIsNull();
         super.initSome(savedInstanceState);
         StatusBarUtil.initStatusBar(activity, false, true, true);
+        AdaptScreenUtil.adaptWidth(getResources(), Config.BASE_WIDTH);
     }
 
     protected abstract void initPresenter();

@@ -3,9 +3,7 @@ package top.wzmyyj.zymk.app.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.NestedScrollView;
+import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -13,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 
 import java.lang.reflect.Field;
 
@@ -68,7 +70,7 @@ public class AceNestedScrollView extends NestedScrollView {
             mTop = (ViewGroup) mWrapper.getChildAt(3);
             int t = mTop.getMeasuredHeight();
             int a = mTab.getMeasuredHeight();
-            int b = StatusBarUtil.StatusBarHeight + DensityUtil.dp2px(getContext(), 200);
+            int b = StatusBarUtil.StatusBarHeight + DensityUtil.pt2px(getContext(), 200);
             FrameLayout.LayoutParams params_bg = (FrameLayout.LayoutParams) mBg.getLayoutParams();
             params_bg.height = b;
             View v0 = this.findViewById(R.id.v_top_0);
@@ -116,11 +118,10 @@ public class AceNestedScrollView extends NestedScrollView {
         return super.onTouchEvent(ev);
     }
 
-    private final Handler handler = new Handler();
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private final MyRunnable myRunnable = new MyRunnable();
 
     private class MyRunnable implements Runnable {
-
         int a = 0, b = 0;
         int c = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 5, getContext().getResources().getDisplayMetrics());

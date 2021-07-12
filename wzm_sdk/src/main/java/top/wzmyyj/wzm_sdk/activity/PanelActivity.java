@@ -1,8 +1,9 @@
 package top.wzmyyj.wzm_sdk.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import top.wzmyyj.wzm_sdk.panel.Panel;
 import top.wzmyyj.wzm_sdk.panel.PanelManager;

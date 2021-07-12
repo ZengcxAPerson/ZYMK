@@ -3,6 +3,8 @@ package top.wzmyyj.zymk.base.fragment;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import butterknife.ButterKnife;
 import top.wzmyyj.wzm_sdk.fragment.PanelFragment;
 import top.wzmyyj.wzm_sdk.tools.T;
@@ -17,7 +19,7 @@ public abstract class BaseFragment<P extends IBasePresenter> extends PanelFragme
     protected P mPresenter;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         initPresenter();
         checkPresenterIsNull();

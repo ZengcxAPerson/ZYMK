@@ -2,17 +2,17 @@ package top.wzmyyj.zymk.view.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.dl7.tag.TagLayout;
+import com.google.android.material.tabs.TabLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -148,7 +148,7 @@ public class DetailsActivity extends BaseActivity<DetailsContract.IPresenter> im
         mRefreshLayout.setFooterHeight(100);
         mRefreshLayout.setPrimaryColorsId(R.color.colorRefresh, R.color.colorWhite);
         mRefreshLayout.setEnableLoadMore(false);
-        rvBooks.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));
+        rvBooks.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
         rvBooks.setNestedScrollingEnabled(false);
         bookAdapter = new BookAdapter(context, xgBooks);
         rvBooks.setAdapter(bookAdapter);

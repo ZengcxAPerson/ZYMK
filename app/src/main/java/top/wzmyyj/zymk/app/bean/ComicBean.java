@@ -15,6 +15,8 @@ public class ComicBean {
     private int price;
     private int imgWidth;
     private int imgHeight;
+    private boolean isLoading;
+    private boolean isPreLoading;
 
     public long getChapterId() {
         return chapterId;
@@ -94,5 +96,21 @@ public class ComicBean {
 
     public void setImgHeight(int imgHeight) {
         this.imgHeight = imgHeight;
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
+    public boolean isPreLoading() {
+        return isPreLoading;
+    }
+
+    public void setPreLoading(boolean preLoading) {
+        isPreLoading = preLoading;
     }
 }

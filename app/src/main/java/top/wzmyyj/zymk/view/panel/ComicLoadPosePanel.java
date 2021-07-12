@@ -3,6 +3,7 @@ package top.wzmyyj.zymk.view.panel;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
@@ -59,7 +60,7 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
     }
 
     @SuppressLint("HandlerLeak")
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -116,7 +117,7 @@ public class ComicLoadPosePanel extends BasePanel<ComicContract.IPresenter> {
         ComicBean comic = this.firstComic;
         if (comic == null) return false;
         if (comic.getChapterId() == -1 || comic.getPrice() > 0) return true;
-        return comic.getImgWidth() > 0 && comic.getImgHeight() > 0;
+        return comic.getImgWidth() > 0 && comic.getImgHeight() > 0 && !comic.isLoading();
     }
 
     @Override

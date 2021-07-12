@@ -3,15 +3,15 @@ package top.wzmyyj.zymk.view.panel;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
@@ -65,7 +65,7 @@ public class DetailsXiPanel extends BasePanel<DetailsContract.IPresenter> {
     @Override
     protected void initView() {
         super.initView();
-        rvAuthorBooks.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));
+        rvAuthorBooks.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
         bookAdapter = new BookAdapter(context, authorBooks);
         rvAuthorBooks.setAdapter(bookAdapter);
     }

@@ -1,9 +1,9 @@
 package top.wzmyyj.wzm_sdk.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import top.wzmyyj.wzm_sdk.panel.Panel;
 import top.wzmyyj.wzm_sdk.panel.PanelManager;
@@ -59,12 +59,6 @@ public abstract class PanelFragment extends InitFragment {
     public void onStop() {
         super.onStop();
         mPanelManager.onStop();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mPanelManager.onActivityCreated(savedInstanceState);
     }
 
     @Override

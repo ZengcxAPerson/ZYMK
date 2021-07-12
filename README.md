@@ -8,6 +8,15 @@ mvp+rxjava+retrofit+okhttp+greendao+glide+gson+jsoup+eventbus+butterknife
 
 个人页：[http://wzmyyj.top/2018/08/22/android_3/](http://wzmyyj.top/2018/08/22/android_3/)
 
+#### 1.1.1
+1. 漫画图片预加载逻辑优化和加载动画结束判断监听第一张图片是否展示。
+
+2. 按屏幕宽度适配，全部用pt做单位（基准420pt为屏幕宽）。
+
+3. 升级AndroidX，升级各第三方库。
+
+4. 其他性能或UI优化。
+
 #### 1.1.0
 1. 漫画图片预加载。
 

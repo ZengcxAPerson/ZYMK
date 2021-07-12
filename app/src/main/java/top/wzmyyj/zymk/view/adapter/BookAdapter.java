@@ -1,9 +1,10 @@
 package top.wzmyyj.zymk.view.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;

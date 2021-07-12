@@ -1,9 +1,9 @@
 package top.wzmyyj.wzm_sdk.panel;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,47 +45,42 @@ public class PanelManager {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        if (mPanelList == null || mPanelList.size() == 0) return;
+        if (mPanelList.size() == 0) return;
         for (Panel p : mPanelList) p.onCreate(savedInstanceState);
     }
 
     public void onResume() {
-        if (mPanelList == null || mPanelList.size() == 0) return;
+        if (mPanelList.size() == 0) return;
         for (Panel p : mPanelList) p.onResume();
     }
 
     public void onStart() {
-        if (mPanelList == null || mPanelList.size() == 0) return;
+        if (mPanelList.size() == 0) return;
         for (Panel p : mPanelList) p.onStart();
     }
 
     public void onRestart() {
-        if (mPanelList == null || mPanelList.size() == 0) return;
+        if (mPanelList.size() == 0) return;
         for (Panel p : mPanelList) p.onRestart();
     }
 
     public void onPause() {
-        if (mPanelList == null || mPanelList.size() == 0) return;
+        if (mPanelList.size() == 0) return;
         for (Panel p : mPanelList) p.onPause();
     }
 
     public void onStop() {
-        if (mPanelList == null || mPanelList.size() == 0) return;
+        if (mPanelList.size() == 0) return;
         for (Panel p : mPanelList) p.onStop();
     }
 
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if (mPanelList == null || mPanelList.size() == 0) return;
-        for (Panel p : mPanelList) p.onActivityCreated(savedInstanceState);
-    }
-
     public void onDestroyView() {
-        if (mPanelList == null || mPanelList.size() == 0) return;
+        if (mPanelList.size() == 0) return;
         for (Panel p : mPanelList) p.onDestroyView();
     }
 
     public void onDestroy() {
-        if (mPanelList == null || mPanelList.size() == 0) return;
+        if (mPanelList.size() == 0) return;
         for (Panel p : mPanelList) p.onDestroy();
         mPanelList.clear();
     }

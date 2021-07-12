@@ -2,10 +2,11 @@ package top.wzmyyj.zymk.view.panel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -16,8 +17,8 @@ import top.wzmyyj.wzm_sdk.adapter.ivd.SingleIVD;
 import top.wzmyyj.zymk.R;
 import top.wzmyyj.zymk.app.bean.BookBean;
 import top.wzmyyj.zymk.app.helper.GlideLoaderHelper;
-import top.wzmyyj.zymk.contract.NewContract;
 import top.wzmyyj.zymk.base.panel.BaseRecyclerPanel;
+import top.wzmyyj.zymk.contract.NewContract;
 
 /**
  * Created by yyj on 2018/07/13. email: 2209011667@qq.com

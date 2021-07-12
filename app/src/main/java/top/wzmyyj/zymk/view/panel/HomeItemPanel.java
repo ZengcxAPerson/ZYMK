@@ -2,12 +2,13 @@ package top.wzmyyj.zymk.view.panel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
@@ -61,7 +62,7 @@ public class HomeItemPanel extends BasePanel<HomeContract.IPresenter> {
     protected void initView() {
         super.initView();
         rvItem.setNestedScrollingEnabled(false);
-        rvItem.setLayoutManager(new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false));
+        rvItem.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
         bookAdapter = new BookAdapter(context, data);
         rvItem.setAdapter(bookAdapter);
     }

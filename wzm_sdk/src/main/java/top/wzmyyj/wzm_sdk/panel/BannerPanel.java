@@ -3,7 +3,8 @@ package top.wzmyyj.wzm_sdk.panel;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;

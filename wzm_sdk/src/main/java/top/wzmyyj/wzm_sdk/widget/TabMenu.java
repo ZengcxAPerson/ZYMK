@@ -2,8 +2,6 @@ package top.wzmyyj.wzm_sdk.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -11,6 +9,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,13 +113,10 @@ public class TabMenu extends LinearLayout {
             tv.setLayoutParams(param3);
             tv.setGravity(Gravity.CENTER);
             final int w = i;
-            layout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mMenuItemClickListener != null) {
-                        mMenuItemClickListener.onClick(layout, w);
-                        change(w);
-                    }
+            layout.setOnClickListener(v -> {
+                if (mMenuItemClickListener != null) {
+                    mMenuItemClickListener.onClick(layout, w);
+                    change(w);
                 }
             });
             layouts.add(layout);
@@ -241,16 +239,10 @@ public class TabMenu extends LinearLayout {
                     .setItemTextColor()
                     .setItemIcon();
         }
-        this.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public void onClick(View view, int pos) {
-                mViewPager.setCurrentItem(pos, false);
-            }
-        });
+        this.setOnMenuItemClickListener((view, pos) -> mViewPager.setCurrentItem(pos, false));
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override

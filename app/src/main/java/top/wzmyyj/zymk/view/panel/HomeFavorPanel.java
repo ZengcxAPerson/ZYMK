@@ -2,12 +2,12 @@ package top.wzmyyj.zymk.view.panel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
@@ -62,7 +62,7 @@ public class HomeFavorPanel extends BasePanel<HomeContract.IPresenter> {
         super.initView();
         view.setVisibility(View.GONE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context,
-                LinearLayout.HORIZONTAL, false));
+                RecyclerView.HORIZONTAL, false));
         mAdapter = new CommonAdapter<FavorBean>(context, R.layout.layout_book_home_favor, mData) {
             @Override
             protected void convert(ViewHolder holder, FavorBean favorBean, int position) {

@@ -1,9 +1,11 @@
 package top.wzmyyj.wzm_sdk.activity;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,19 +69,21 @@ public abstract class ViewPagerFragmentActivity extends InitActivity {
             mIcon2[i] = ft.icon2;
             if (++i >= 6) break;
         }
+        @SuppressWarnings("deprecation")
         FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public int getCount() {
                 return mFragmentList.size();
             }
 
+            @NonNull
             @Override
-            public Fragment getItem(int a) {
-                return mFragmentList.get(a);
+            public androidx.fragment.app.Fragment getItem(int position) {
+                return mFragmentList.get(position);
             }
 
             @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
+            public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
                 super.destroyItem(container, position, object);
             }
         };
